@@ -120,11 +120,11 @@ AROS_LH1(LIBBASETYPEPTR, LibOpen,
     
 }
 
-__saveds APTR LibExpunge (LIBBASETYPE *Base reg(a6))
+__saveds APTR LibExpungeInternal(LIBBASETYPE *Base reg(a6))
 {
   USESYSBASE
   APTR seglist;
-  bug("Expunge internal\n");
+  bug("LibExpungeInternal\n");
 
   if (Base->My_Test_Lib.lib_OpenCnt)
   {
@@ -153,7 +153,7 @@ AROS_LH0(BPTR, LibClose,
 
     if (!(--Base->My_Test_Lib.lib_OpenCnt))
     {
-      return LibExpunge(Base);          
+      return LibExpungeInternal(Base);          
     }
     return 0;
 	
@@ -172,7 +172,7 @@ AROS_LH1(BPTR, LibExpunge,
     USESYSBASE
     bug("LibExpunge\n");
 
-    return LibExpunge(Base);
+    return LibExpungeInternal(Base);
 	
     AROS_LIBFUNC_EXIT
 }
@@ -191,6 +191,10 @@ AROS_LH0(LIBBASETYPEPTR, LibReserved,
     AROS_LIBFUNC_EXIT
 }
 
+
+// Space for your own functions
+// do not forget to update the FuncTable as well
+
 AROS_LH1(int, TestFunction,
     AROS_LHA(int, TestValue, D0),
     LIBBASETYPEPTR, Base, 5, LIBHEADNAME
@@ -206,6 +210,8 @@ AROS_LH1(int, TestFunction,
     
     AROS_LIBFUNC_EXIT
 }
+
+// Functable -> Table of all functions in the Library, in right order!
 
 const APTR FuncTable[] = 
 {

@@ -3,7 +3,6 @@
 
 #define __NOLIBBASE__
 
-#include <graphics/text.h>
 #include <exec/libraries.h>
 #include <exec/semaphores.h>
 #include <dos/dos.h>
@@ -15,7 +14,6 @@
 #endif
 
 #define USESYSBASE struct ExecBase *SysBase = Base->My_SysBase;
-
 
 struct MyTestBase
 {
