@@ -16,5 +16,5 @@ mytest.library: $(OBJS)
 lib_header.o: lib_header.c lib.h
 
 clean:
-	rm -f *.o *.library
+	rm -f *.o *.library *.ppu testlibrary linkermap
 
