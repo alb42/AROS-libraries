@@ -223,4 +223,6 @@ const APTR FuncTable[] =
     (void *)-1
 };
 
+ADD2INITLIB(InitLib,0)
+ADD2EXPUNGELIB(LibExpungeIntern, 0)
 
