@@ -89,7 +89,13 @@ AROS_UFH3 (LIBBASETYPEPTR, InitLib,
     
     USESYSBASE
     bug("InitLib\n");
-
+    
+    if (!set_open_libraries())
+    {
+      set_close_libraries();
+      return NULL;
+    }
+    
     return Base;
     
     AROS_USERFUNC_EXIT
@@ -132,7 +138,8 @@ __saveds APTR LibExpunge (LIBBASETYPE *Base reg(a6))
   Permit();
   FreeMem((APTR)Base - Base->My_Test_Lib.lib_NegSize, (LONG)Base->My_Test_Lib.lib_PosSize +
     (LONG)Base->My_Test_Lib.lib_NegSize);
-
+  
+  set_close_libraries();
   return seglist;
 }
 

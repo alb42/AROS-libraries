@@ -3,7 +3,7 @@ CFLAGS = -O2 -g -fomit-frame-pointer -W -Wall -Wno-parentheses
 CC = i386-aros-gcc
 LD = i386-aros-gcc
 LDFLAGS = -nostartfiles -Wl,-Map -Xlinker linkermap
-LIBS = 
+LIBS = -lautoinit -llibinit
 STRIP = i386-aros-strip --strip-unneeded --remove-section .comment
 
 OBJS = lib_header.o 
