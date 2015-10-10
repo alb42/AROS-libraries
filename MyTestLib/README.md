@@ -62,19 +62,19 @@ List of all functions in the Library in the right order the List is terminated w
 ## How to add a function to the List
 Create a new Entry like:<br>
 <code>
-AROS_LH1(int, TestFunction,
-    AROS_LHA(int, TestValue, D0),
-    LIBBASETYPEPTR, Base, 5, LIBHEADNAME
-    )
-{
-    AROS_LIBFUNC_INIT
-    USESYSBASE
-    bug("TestFunction\n");
-    
-    return 0
-    
-    AROS_LIBFUNC_EXIT
-}
+AROS_LH1(int, TestFunction,<br>
+    AROS_LHA(int, TestValue, D0),<br>
+    LIBBASETYPEPTR, Base, 5, LIBHEADNAME<br>
+    )<br>
+{<br>
+    AROS_LIBFUNC_INIT<br>
+    USESYSBASE<br>
+    bug("TestFunction\n");<br>
+    <br>
+    return 0<br>
+    <br>
+    AROS_LIBFUNC_EXIT<br>
+}<br>
 </code>
 <br><br>
 Add Entry to FunctTable<br>
