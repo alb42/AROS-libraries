@@ -41,7 +41,7 @@ begin
     writeln('Integer Version: ', sqlite3_libversion_number());
     writeln('Source ID: ', SQLite3_SourceID());
     writeln('Open/create db-file');
-    //rc := sqlite3_open('test1.sqlite', db); // in file db
+    //rc := sqlite3_open16('test1.sqlite', db); // in file db
     rc := sqlite3_open(':memory:', db);       // in memory db
     if rc = 0 then
     begin

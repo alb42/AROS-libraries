@@ -17,7 +17,7 @@ const
   SQLITE_LOCKED     =  6;  // A table in the database is locked
   SQLITE_NOMEM      =  7;  // A malloc() failed
   SQLITE_READONLY   =  8;  // Attempt to write a readonly database
-  SQLITE_INTERRUPT  =  9;  // Operation terminated by sqlite3_interrupt()*/
+  SQLITE_INTERRUPT  =  9;  // Operation terminated by sqlite3_interrupt()
   SQLITE_IOERR      = 10;  // Some kind of disk I/O error occurred
   SQLITE_CORRUPT    = 11;  // The database disk image is malformed
   SQLITE_NOTFOUND   = 12;  // NOT USED. Table or record not found
@@ -136,6 +136,44 @@ const
   SQLITE_UTF16         = 4; // Use native byte order
   SQLITE_ANY           = 5; // sqlite3_create_function only
   SQLITE_UTF16_ALIGNED = 8; // sqlite3_create_collation only
+// autorizer return codes
+
+  SQLITE_DENY   = 1; // Abort the SQL statement with an error
+  SQLITE_IGNORE = 2; // Don't allow access, but don't generate an error
+// Authorizer Action Codes
+  SQLITE_CREATE_INDEX       =  1; // Index Name      Table Name
+  SQLITE_CREATE_TABLE       =  2; // Table Name      NULL
+  SQLITE_CREATE_TEMP_INDEX  =  3; // Index Name      Table Name
+  SQLITE_CREATE_TEMP_TABLE  =  4; // Table Name      NULL
+  SQLITE_CREATE_TEMP_TRIGGER=  5; // Trigger Name    Table Name
+  SQLITE_CREATE_TEMP_VIEW   =  6; // View Name       NULL
+  SQLITE_CREATE_TRIGGER     =  7; // Trigger Name    Table Name
+  SQLITE_CREATE_VIEW        =  8; // View Name       NULL
+  SQLITE_DELETE             =  9; // Table Name      NULL
+  SQLITE_DROP_INDEX         = 10; // Index Name      Table Name
+  SQLITE_DROP_TABLE         = 11; // Table Name      NULL
+  SQLITE_DROP_TEMP_INDEX    = 12; // Index Name      Table Name
+  SQLITE_DROP_TEMP_TABLE    = 13; // Table Name      NULL
+  SQLITE_DROP_TEMP_TRIGGER  = 14; // Trigger Name    Table Name
+  SQLITE_DROP_TEMP_VIEW     = 15; // View Name       NULL
+  SQLITE_DROP_TRIGGER       = 16; // Trigger Name    Table Name
+  SQLITE_DROP_VIEW          = 17; // View Name       NULL
+  SQLITE_INSERT             = 18; // Table Name      NULL
+  SQLITE_PRAGMA             = 19; // Pragma Name     1st arg or NULL
+  SQLITE_READ               = 20; // Table Name      Column Name
+  SQLITE_SELECT             = 21; // NULL            NULL
+  SQLITE_TRANSACTION        = 22; // Operation       NULL
+  SQLITE_UPDATE             = 23; // Table Name      Column Name
+  SQLITE_ATTACH             = 24; // Filename        NULL
+  SQLITE_DETACH             = 25; // Database Name   NULL
+  SQLITE_ALTER_TABLE        = 26; // Database Name   Table Name
+  SQLITE_REINDEX            = 27; // Index Name      NULL
+  SQLITE_ANALYZE            = 28; // Table Name      NULL
+  SQLITE_CREATE_VTABLE      = 29; // Table Name      Module Name
+  SQLITE_DROP_VTABLE        = 30; // Table Name      Module Name
+  SQLITE_FUNCTION           = 31; // NULL            Function Name
+  SQLITE_SAVEPOINT          = 32; // Operation       Savepoint Name
+  SQLITE_COPY               =  0; // No longer used
 
 type
   SQLite3_Int64 = Int64;
@@ -169,6 +207,8 @@ type
   TSQLite3_Destructor_Type = procedure(n: Pointer); cdecl;
   TSQLite3_Callback = function(Data: Pointer; NumCol: Integer; Cols: PPChar; ColNames: PPChar): Integer; cdecl;
   TSQLite3_BusyCallback = function(Data: Pointer; NumCalls: Integer): Integer;
+  TSQLite3_AuthCallback = function(pUserData: Pointer; Code: Integer; s1, s2, s3, s4: PChar): Integer; cdecl;
+  TSQLite3_ProgressCallback = function(pUserData: Pointer): Integer; cdecl;
 const
   SQLITE_STATIC    = 0;
   SQLITE_TRANSIENT = -1;
@@ -176,7 +216,7 @@ const
 var
   SQLite3Base: PSQLite3Base;
 
-function SQLite3_Open(Name: PChar; var db: PSQLite3): Integer; syscall SQLite3Base 5;
+function SQLite3_Open(FileName: PChar; var db: PSQLite3): Integer; syscall SQLite3Base 5;
 procedure SQLite3_Close(db: PSQLite3); syscall SQLite3Base 6;
 function SQLite3_Exec(db: PSQLite3; sql: PChar; Callback: TSQLite3_Callback; data: Pointer; var ErrMsg: PChar): Integer; syscall SQLite3Base 7;
 procedure SQLite3_Free(Mem: Pointer); syscall SQLite3Base 8;
@@ -254,6 +294,33 @@ function SQLite3_malloc(Size: Integer): Pointer; syscall SQLite3Base 79;
 function SQLite3_Realloc(Ptr: Pointer; Size: Integer): Pointer; syscall SQLite3Base 80;
 function SQLite3_Memory_Used(): SQLite3_Int64; syscall SQLite3Base 81;
 function SQLite3_Memory_Highwater(ResetFlag: Integer): SQLite3_Int64; syscall SQLite3Base 82;
+procedure SQLite3_Randomness(N: Integer; P: Pointer); syscall SQLite3Base 83;
+function SQLite3_Set_Authorizer(db: PSQLite3; xAuth: TSQLite3_AuthCallback; pUserData: Pointer): Integer; syscall SQLite3Base 84;
+procedure SQLite3_Progress_Handler(db: PSQLite3; cb: TSQLite3_ProgressCallback; pUserData: Pointer); syscall SQLite3Base 85;
+function SQLite3_Open16(FileName: PWideChar; var db: PSQLite3): Integer; syscall SQLite3Base 86;
+function SQLite3_Open_v2(FileName: PChar; var db: PSQLite3; Flags: Integer; zVfs: PChar): Integer; syscall SQLite3Base 87;
+function SQLite3_Prepare16(db: PSQLite3; zSQL: PWideChar; nByte: Integer; var pStmt: PSQLite3_Stmt; var pzTail: PWideChar): Integer; syscall SQLite3Base 88;
+function SQLite3_Prepare16_v2(db: PSQLite3; zSQL: PWideChar; nByte: Integer; var pStmt: PSQLite3_Stmt; var pzTail: PWideChar): Integer; syscall SQLite3Base 89;
+procedure SQLite3_Result_Blob(pCtx: PSQLite3_Context; Value: Pointer; n: Integer; Destroyer: TSQLite3_Destructor_Type); syscall SQLite3Base 90;
+procedure SQLite3_Result_Double(pCtx: PSQLite3_Context; Value: Double); syscall SQLite3Base 91;
+procedure SQLite3_Result_Error(pCtx: PSQLite3_Context; ErrMsg: PChar; n: Integer); syscall SQLite3Base 92;
+procedure SQLite3_Result_Error16(pCtx: PSQLite3_Context; ErrMsg: PWideChar; n: Integer); syscall SQLite3Base 93;
+procedure SQLite3_Result_Error_Toobig(pCtx: PSQLite3_Context); syscall SQLite3Base 94;
+procedure SQLite3_Result_Error_NoMem(pCtx: PSQLite3_Context); syscall SQLite3Base 95;
+procedure SQLite3_Result_Error_Code(pCtx: PSQLite3_Context; Code: Integer); syscall SQLite3Base 96;
+procedure SQLite3_Result_Int(pCtx: PSQLite3_Context; Value: Integer); syscall SQLite3Base 97;
+procedure SQLite3_Result_Int64(pCtx: PSQLite3_Context; Value: SQLite3_Int64); syscall SQLite3Base 98;
+procedure SQLite3_Result_Null(pCtx: PSQLite3_Context); syscall SQLite3Base 99;
+procedure SQLite3_Result_Text(pCtx: PSQLite3_Context; Value: PChar; n: Integer; Destroyer: TSQLite3_Destructor_Type); syscall SQLite3Base 100;
+procedure SQLite3_Result_Text16(pCtx: PSQLite3_Context; Value: PWideChar; n: Integer; Destroyer: TSQLite3_Destructor_Type); syscall SQLite3Base 101;
+procedure SQLite3_Result_Text16LE(pCtx: PSQLite3_Context; Value: PWideChar; n: Integer; Destroyer: TSQLite3_Destructor_Type); syscall SQLite3Base 102;
+procedure SQLite3_Result_Text16BE(pCtx: PSQLite3_Context; Value: PWideChar; n: Integer; Destroyer: TSQLite3_Destructor_Type); syscall SQLite3Base 103;
+procedure SQLite3_Result_Value(pCtx: PSQLite3_Context; Value: PSQLite3_Value); syscall SQLite3Base 104;
+procedure SQLite3_Result_Zeroblob(pCtx: PSQLite3_Context; n: Integer); syscall SQLite3Base 105;
+function SQLite3_Sleep(ms: Integer): Integer; syscall SQLite3Base 106;
+function SQLite3_Get_Autocommit(db: PSQLite3): Integer; syscall SQLite3Base 107;
+function SQLite3_Db_Handle(Stmt: PSQLite3_Stmt): PSQLite3; syscall SQLite3Base 108;
+function SQLite3_Next_Stmt(db: PSQLite3; Stmt: PSQLite3_Stmt): PSQLite3_Stmt; syscall SQLite3Base 109;
 
 implementation
 
