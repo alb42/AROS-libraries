@@ -25,6 +25,8 @@ var
   isOK: Boolean;
   Ver: PChar;
   v: LongWord;
+  Res: PSQLite3_Stmt;
+  Rest: PChar;
 begin
   if Assigned(sqlite3Base) then
   begin
@@ -62,6 +64,7 @@ begin
       end;
       if isOK then
       begin
+        writeln('Insert Data ...');
         sql := 'INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) ' +
            'VALUES (1, "Paul", 32, "California", 20000.00 ); ' +
            'INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) ' +
@@ -79,12 +82,13 @@ begin
           isOK := False;
         end else
         begin
-          writeln('Successfully inserted Data');
+          writeln('OK');
         end;
       end;
 
       if isOK then
       begin
+        writeln('Select Data');
         sql := 'SELECT * from COMPANY';
 
         rc := sqlite3_exec(db, PChar(sql), @MyCallback, nil, ErrMsg);
@@ -95,7 +99,29 @@ begin
           isOK := False;
         end else
         begin
-          writeln('Successfully Select Data');
+          writeln('OK');
+        end;
+      end;
+      if isOK then
+      begin
+        writeln('Test sqlite_prepare_v2 API');
+        sql := 'SELECT SQLITE_VERSION()';
+
+        rc := sqlite3_prepare_v2(db, PChar(sql), -1, res, Rest);
+        if rc <> 0 then
+        begin
+          writeln('Error on select Data ', rc);
+          isOK := False;
+        end else
+        begin
+          writeln('OK');
+          writeln('make a step');
+          rc := sqlite3_step(Res);
+          if rc = SQLITE_ROW then
+          begin
+            writeln('Version got by prepare API: ', sqlite3_Column_Text(res, 0));
+          end;
+          sqlite3_finalize(Res);
         end;
       end;
       sqlite3_close(db);
