@@ -86,8 +86,9 @@ AROS_LH1(int, TestFunction,
 <br><br>
 Add Entry to FunctTable<br>
 <pre>
- &AROS_SLIB_ENTRY(TestFunction,LIBHEADNAME),
+ &AROS_SLIB_ENTRY(TestFunction,LIBHEADNAME,5),
 </pre>
+Set the right function name and number as defined in the AROS_LHx Header.
 
 ### The Header
 <ul>

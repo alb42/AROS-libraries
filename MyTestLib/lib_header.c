@@ -24,14 +24,6 @@
 #include <aros/symbolsets.h>
 #include "lib.h"
 
-//  Define and variables for auto init stuff
-THIS_PROGRAM_HANDLES_SYMBOLSETS
-
-void *__startup_entries_next;
-void *__includelibrarieshandling;
-void *__startup_error;
-// end
-
 const UBYTE lib_name[] = LIBHEADNAMESTR ".library";
 
 const UBYTE lib_id[] = "$VER: " LIBHEADNAMESTR ".library " VERS " (" COMPDATE ") by ALB42\n";
@@ -215,14 +207,12 @@ AROS_LH1(int, TestFunction,
 
 const APTR FuncTable[] = 
 {
-    &AROS_SLIB_ENTRY(LibOpen,LIBHEADNAME),
-    &AROS_SLIB_ENTRY(LibClose,LIBHEADNAME),
-    &AROS_SLIB_ENTRY(LibExpunge,LIBHEADNAME),
-    &AROS_SLIB_ENTRY(LibReserved,LIBHEADNAME),
-    &AROS_SLIB_ENTRY(TestFunction,LIBHEADNAME),
+    &AROS_SLIB_ENTRY(LibOpen,LIBHEADNAME,1),
+    &AROS_SLIB_ENTRY(LibClose,LIBHEADNAME,2),
+    &AROS_SLIB_ENTRY(LibExpunge,LIBHEADNAME,3),
+    &AROS_SLIB_ENTRY(LibReserved,LIBHEADNAME,4),
+    &AROS_SLIB_ENTRY(TestFunction,LIBHEADNAME,5),
     (void *)-1
 };
 
-ADD2INITLIB(InitLib,0)
-ADD2EXPUNGELIB(LibExpungeIntern, 0)
 
