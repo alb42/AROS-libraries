@@ -215,4 +215,8 @@ const APTR FuncTable[] =
     (void *)-1
 };
 
+// AutoInit stuff
+void *__PROGRAM_ENTRIES__symbol_set_handler_missing;
+void *__LIBS__symbol_set_handler_missing;
+// end of AutoInitStuff
 
