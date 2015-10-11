@@ -996,6 +996,63 @@ AROS_LH1(int, sqlite3_value_numeric_type,
     AROS_LIBFUNC_EXIT
 }
 
+AROS_LH2(void *, sqlite3_aggregate_context,
+    AROS_LHA(sqlite3_context *, pCtx, A0),
+    AROS_LHA(int, nBytes, D0),
+    LIBBASETYPEPTR, Base, 63, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_aggregate_context \n");
+
+    return sqlite3_aggregate_context(pCtx, nBytes);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(void *, sqlite3_user_data,
+    AROS_LHA(sqlite3_context *, pCtx, A0),
+    LIBBASETYPEPTR, Base, 64, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_user_data \n");
+
+    return sqlite3_user_data(pCtx);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH2(void *, sqlite3_get_auxdata,
+    AROS_LHA(sqlite3_context *, pCtx, A0),
+    AROS_LHA(int , N, D0),
+    LIBBASETYPEPTR, Base, 65, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_get_auxdata \n");
+
+    return sqlite3_get_auxdata(pCtx, N);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH4(void , sqlite3_set_auxdata,
+    AROS_LHA(sqlite3_context *, pCtx, A0),
+    AROS_LHA(int , N, D0),
+    AROS_LHA(void *, auxdata, A1),
+    AROS_LHA(void(*destructor),(void*), A2),
+    LIBBASETYPEPTR, Base, 66, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_set_auxdata \n");
+
+    return sqlite3_set_auxdata(pCtx, N, auxdata, destructor);
+
+    AROS_LIBFUNC_EXIT
+}
+
 const APTR FuncTable[] =
 {
     &AROS_SLIB_ENTRY(LibOpen,LIBHEADNAME,1),
@@ -1060,6 +1117,10 @@ const APTR FuncTable[] =
     &AROS_SLIB_ENTRY(sqlite3_value_text16be,LIBHEADNAME,60),
     &AROS_SLIB_ENTRY(sqlite3_value_type,LIBHEADNAME,61),
     &AROS_SLIB_ENTRY(sqlite3_value_numeric_type,LIBHEADNAME,62),
+    &AROS_SLIB_ENTRY(sqlite3_aggregate_context,LIBHEADNAME,63),
+    &AROS_SLIB_ENTRY(sqlite3_user_data,LIBHEADNAME,64),
+    &AROS_SLIB_ENTRY(sqlite3_get_auxdata,LIBHEADNAME,65),
+    &AROS_SLIB_ENTRY(sqlite3_set_auxdata,LIBHEADNAME,66),
     (void *)-1
 };
 

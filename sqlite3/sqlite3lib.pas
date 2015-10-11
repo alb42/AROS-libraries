@@ -84,12 +84,21 @@ type
   PSQLite3_Value = ^SQLite3_Value;
   PPSQLite3_Value = ^PSQLite3_Value;
 
+  SQLite3_Context = record end;
+  PSQLite3_Context = ^SQLite3_Context;
+  PPSQLite3_Context = ^PSQLite3_Context;
+
  TSQLite3Base = record
     SQLite3_Lib: TLibrary;
     SQLite3_SysBase: PExecBase;
     SQLite3_SegList: APTR;
   end;
   PSQLite3Base = ^TSQLite3Base;
+
+  TSQLite3_Destructor_Type = procedure(n: Pointer); cdecl;
+const
+  SQLITE_STATIC    = 0;
+  SQLITE_TRANSIENT = -1;
 
 var
   SQLite3Base: PSQLite3Base;
@@ -140,7 +149,6 @@ function SQLite3_Column_Name16(Stmt: PSQLite3_Stmt; N: Integer): PWideChar; sysc
 function SQLite3_Column_Decltype(Stmt: PSQLite3_Stmt; N: Integer): PChar; syscall SQLite3Base 48;
 function SQLite3_Column_Database_Decltype16(Stmt: PSQLite3_Stmt; N: Integer): PWideChar; syscall SQLite3Base 49;
 function SQLite3_Data_Count(Stmt: PSQLite3_Stmt): Integer; syscall SQLite3Base 50;
-
 function SQLite3_Value_Blob(Value: PSQLite3_Value): Pointer; syscall SQLite3Base 51;
 function SQLite3_Value_Bytes(Value: PSQLite3_Value): Integer; syscall SQLite3Base 52;
 function SQLite3_Value_Bytes16(Value: PSQLite3_Value): Integer; syscall SQLite3Base 53;
@@ -153,7 +161,10 @@ function SQLite3_Value_Text16LE(Value: PSQLite3_Value): PChar; syscall SQLite3Ba
 function SQLite3_Value_Text16BE(Value: PSQLite3_Value): PChar; syscall SQLite3Base 60;
 function SQLite3_Value_Type(Value: PSQLite3_Value): Integer; syscall SQLite3Base 61;
 function SQLite3_Value_Numeric_Type(Value: PSQLite3_Value): Integer; syscall SQLite3Base 62;
-
+function SQLite3_Aggregate_Context(Context: PSQLite3_Context; nBytes: Integer): Pointer; syscall SQLite3Base 63;
+function SQLite3_User_Data(Context: PSQLite3_Context): Pointer; syscall SQLite3Base 64;
+function SQLite3_Get_Auxdata(Context: PSQLite3_Context; N: Integer): Pointer; syscall SQLite3Base 65;
+procedure SQLite3_Set_Auxdata(Context: PSQLite3_Context; N: Integer; Data: Pointer; Destroyer: TSQLite3_Destructor_Type); syscall SQLite3Base 66;
 
 implementation
 
