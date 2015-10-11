@@ -51,6 +51,24 @@ const
   SQLITE_LIMIT_VARIABLE_NUMBER     = 9;
   SQLITE_LIMIT_TRIGGER_DEPTH       = 10;
 
+// basic SQLITE type codes
+
+  SQLITE_INTEGER = 1;
+  SQLITE_FLOAT   = 2;
+  SQLITE_BLOB    = 4;
+  SQLITE_NULL    = 5;
+  SQLITE_TEXT    = 3;
+  SQLITE3_TEXT   = 3;
+
+// Text Encodings
+
+  SQLITE_UTF8          = 1;
+  SQLITE_UTF16LE       = 2;
+  SQLITE_UTF16BE       = 3;
+  SQLITE_UTF16         = 4; // Use native byte order
+  SQLITE_ANY           = 5; // sqlite3_create_function only
+  SQLITE_UTF16_ALIGNED = 8; // sqlite3_create_collation only
+
 type
   SQLite3_Int64 = Int64;
 
@@ -122,6 +140,20 @@ function SQLite3_Column_Name16(Stmt: PSQLite3_Stmt; N: Integer): PWideChar; sysc
 function SQLite3_Column_Decltype(Stmt: PSQLite3_Stmt; N: Integer): PChar; syscall SQLite3Base 48;
 function SQLite3_Column_Database_Decltype16(Stmt: PSQLite3_Stmt; N: Integer): PWideChar; syscall SQLite3Base 49;
 function SQLite3_Data_Count(Stmt: PSQLite3_Stmt): Integer; syscall SQLite3Base 50;
+
+function SQLite3_Value_Blob(Value: PSQLite3_Value): Pointer; syscall SQLite3Base 51;
+function SQLite3_Value_Bytes(Value: PSQLite3_Value): Integer; syscall SQLite3Base 52;
+function SQLite3_Value_Bytes16(Value: PSQLite3_Value): Integer; syscall SQLite3Base 53;
+function SQLite3_Value_Double(Value: PSQLite3_Value): Double; syscall SQLite3Base 54;
+function SQLite3_Value_Int(Value: PSQLite3_Value): Integer; syscall SQLite3Base 55;
+function SQLite3_Value_Int64(Value: PSQLite3_Value): SQLite3_Int64; syscall SQLite3Base 56;
+function SQLite3_Value_Text(Value: PSQLite3_Value): PChar; syscall SQLite3Base 57;
+function SQLite3_Value_Text16(Value: PSQLite3_Value): PWideChar; syscall SQLite3Base 58;
+function SQLite3_Value_Text16LE(Value: PSQLite3_Value): PChar; syscall SQLite3Base 59;
+function SQLite3_Value_Text16BE(Value: PSQLite3_Value): PChar; syscall SQLite3Base 60;
+function SQLite3_Value_Type(Value: PSQLite3_Value): Integer; syscall SQLite3Base 61;
+function SQLite3_Value_Numeric_Type(Value: PSQLite3_Value): Integer; syscall SQLite3Base 62;
+
 
 implementation
 

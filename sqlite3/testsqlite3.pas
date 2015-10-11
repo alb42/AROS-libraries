@@ -28,6 +28,7 @@ var
   Res: PSQLite3_Stmt;
   Rest: PChar;
   RestW: PWideChar;
+  SQLVal: PSQLite3_Value;
 begin
   if Assigned(sqlite3Base) then
   begin
@@ -133,6 +134,13 @@ begin
               writeln('name of column as WideChar 0: ', WideString(RestW));
             end;
             writeln('Version got by prepare API: ', sqlite3_Column_Text(res, 0));
+            writeln('get as SQLite3_Value');
+            SQLVal := SQLite3_Column_Value(Res, 0);
+            if Assigned(SQLVal) then
+            begin
+              writeln('Type of SQLite3_Value (should be 3 = Text): ', SQLite3_Value_Type(SQLVal));
+              writeln('Result from SQLite3_Value: ', SQLite3_Value_Text(SQLVal));
+            end;
           end else
           begin
             writeln('Error: Step Result <> SQLITE_ROW but ', rc);

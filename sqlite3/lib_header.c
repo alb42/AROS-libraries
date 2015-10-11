@@ -840,7 +840,161 @@ AROS_LH1(int , sqlite3_data_count,
     AROS_LIBFUNC_EXIT
 }
 
+AROS_LH1(const void *, sqlite3_value_blob,
+    AROS_LHA(sqlite3_value *, value, A0),
+    LIBBASETYPEPTR, Base, 51, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_value_blob \n");
 
+    return sqlite3_value_blob(value);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(int, sqlite3_value_bytes,
+    AROS_LHA(sqlite3_value *, value, A0),
+    LIBBASETYPEPTR, Base, 52, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_value_bytes \n");
+
+    return sqlite3_value_bytes(value);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(int, sqlite3_value_bytes16,
+    AROS_LHA(sqlite3_value *, value, A0),
+    LIBBASETYPEPTR, Base, 53, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_value_bytes16 \n");
+
+    return sqlite3_value_bytes16(value);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(double, sqlite3_value_double,
+    AROS_LHA(sqlite3_value *, value, A0),
+    LIBBASETYPEPTR, Base, 54, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_value_double \n");
+
+    return sqlite3_value_double(value);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(int, sqlite3_value_int,
+    AROS_LHA(sqlite3_value *, value, A0),
+    LIBBASETYPEPTR, Base, 55, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_value_int \n");
+
+    return sqlite3_value_int(value);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(sqlite3_int64, sqlite3_value_int64,
+    AROS_LHA(sqlite3_value *, value, A0),
+    LIBBASETYPEPTR, Base, 56, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_value_int64 \n");
+
+    return sqlite3_value_int64(value);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(const unsigned char *, sqlite3_value_text,
+    AROS_LHA(sqlite3_value *, value, A0),
+    LIBBASETYPEPTR, Base, 57, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_value_text \n");
+
+    return sqlite3_value_text(value);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(const void *, sqlite3_value_text16,
+    AROS_LHA(sqlite3_value *, value, A0),
+    LIBBASETYPEPTR, Base, 58, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_value_text16 \n");
+
+    return sqlite3_value_text16(value);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(const void *, sqlite3_value_text16le,
+    AROS_LHA(sqlite3_value *, value, A0),
+    LIBBASETYPEPTR, Base, 59, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_value_text16le \n");
+
+    return sqlite3_value_text16le(value);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(const void *, sqlite3_value_text16be,
+    AROS_LHA(sqlite3_value *, value, A0),
+    LIBBASETYPEPTR, Base, 60, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_value_text16be \n");
+
+    return sqlite3_value_text16be(value);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(int, sqlite3_value_type,
+    AROS_LHA(sqlite3_value *, value, A0),
+    LIBBASETYPEPTR, Base, 61, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_value_type \n");
+
+    return sqlite3_value_type(value);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(int, sqlite3_value_numeric_type,
+    AROS_LHA(sqlite3_value *, value, A0),
+    LIBBASETYPEPTR, Base, 62, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_value_numeric_type \n");
+
+    return sqlite3_value_numeric_type(value);
+
+    AROS_LIBFUNC_EXIT
+}
 
 const APTR FuncTable[] =
 {
@@ -894,6 +1048,18 @@ const APTR FuncTable[] =
     &AROS_SLIB_ENTRY(sqlite3_column_decltype,LIBHEADNAME,48),
     &AROS_SLIB_ENTRY(sqlite3_column_decltype16,LIBHEADNAME,49),
     &AROS_SLIB_ENTRY(sqlite3_data_count,LIBHEADNAME,50),
+    &AROS_SLIB_ENTRY(sqlite3_value_blob,LIBHEADNAME,51),
+    &AROS_SLIB_ENTRY(sqlite3_value_bytes,LIBHEADNAME,52),
+    &AROS_SLIB_ENTRY(sqlite3_value_bytes16,LIBHEADNAME,53),
+    &AROS_SLIB_ENTRY(sqlite3_value_double,LIBHEADNAME,54),
+    &AROS_SLIB_ENTRY(sqlite3_value_int,LIBHEADNAME,55),
+    &AROS_SLIB_ENTRY(sqlite3_value_int64,LIBHEADNAME,56),
+    &AROS_SLIB_ENTRY(sqlite3_value_text,LIBHEADNAME,57),
+    &AROS_SLIB_ENTRY(sqlite3_value_text16,LIBHEADNAME,58),
+    &AROS_SLIB_ENTRY(sqlite3_value_text16le,LIBHEADNAME,59),
+    &AROS_SLIB_ENTRY(sqlite3_value_text16be,LIBHEADNAME,60),
+    &AROS_SLIB_ENTRY(sqlite3_value_type,LIBHEADNAME,61),
+    &AROS_SLIB_ENTRY(sqlite3_value_numeric_type,LIBHEADNAME,62),
     (void *)-1
 };
 
