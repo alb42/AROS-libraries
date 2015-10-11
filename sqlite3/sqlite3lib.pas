@@ -103,6 +103,25 @@ function SQLite3_Extended_ErrCode(db: PSQLite3): Integer; syscall SQLite3Base 28
 function SQLite3_ErrMsg(db: PSQLite3): PChar; syscall SQLite3Base 29;
 function SQLite3_ErrMsg16(db: PSQLite3): PWideChar; syscall SQLite3Base 30;
 function SQLite3_Limit(db: PSQLite3; ID: Integer; NewVal: Integer): Integer; syscall SQLite3Base 31;
+function SQLite3_Bind_Blob(Stmt: PSQLite3_Stmt; Idx: Integer; Value: Pointer; n: Integer; Destroyer: Pointer): Integer; syscall SQLite3Base 32;
+function SQLite3_Bind_Double(Stmt: PSQLite3_Stmt; Idx: Integer; Value: Double): Integer; syscall SQLite3Base 33;
+function SQLite3_Bind_Int(Stmt: PSQLite3_Stmt; Idx: Integer; Value: Integer): Integer; syscall SQLite3Base 34;
+function SQLite3_Bind_Int64(Stmt: PSQLite3_Stmt; Idx: Integer; Value: SQLite3_Int64): Integer; syscall SQLite3Base 35;
+function SQLite3_Bind_Null(Stmt: PSQLite3_Stmt; Idx: Integer): Integer; syscall SQLite3Base 36;
+function SQLite3_Bind_Text(Stmt: PSQLite3_Stmt; Idx: Integer; Value: PChar; n: Integer; Destroyer: Pointer): Integer; syscall SQLite3Base 37;
+function SQLite3_Bind_Text16(Stmt: PSQLite3_Stmt; Idx: Integer; Value: PWideChar; n: Integer; Destroyer: Pointer): Integer; syscall SQLite3Base 38;
+function SQLite3_Bind_Value(Stmt: PSQLite3_Stmt; Idx: Integer; Value: PSQLite3_Value): Integer; syscall SQLite3Base 39;
+function SQLite3_Bind_ZeroBlob(Stmt: PSQLite3_Stmt; Idx: Integer; n: Integer): Integer; syscall SQLite3Base 40;
+function SQLite3_Bind_Parameter_Count(Stmt: PSQLite3_Stmt): Integer; syscall SQLite3Base 41;
+function SQLite3_Bind_Parameter_Name(Stmt: PSQLite3_Stmt; n: Integer): PChar; syscall SQLite3Base 42;
+function SQLite3_Bind_Parameter_Index(Stmt: PSQLite3_Stmt; zName: PChar): Integer; syscall SQLite3Base 43;
+function SQLite3_Clear_Bindings(Stmt: PSQLite3_Stmt): Integer; syscall SQLite3Base 44;
+function SQLite3_Column_Count(Stmt: PSQLite3_Stmt): Integer; syscall SQLite3Base 45;
+function SQLite3_Column_Name(Stmt: PSQLite3_Stmt; N: Integer): PChar; syscall SQLite3Base 46;
+function SQLite3_Column_Name16(Stmt: PSQLite3_Stmt; N: Integer): PWideChar; syscall SQLite3Base 47;
+function SQLite3_Column_Decltype(Stmt: PSQLite3_Stmt; N: Integer): PChar; syscall SQLite3Base 48;
+function SQLite3_Column_Database_Decltype16(Stmt: PSQLite3_Stmt; N: Integer): PWideChar; syscall SQLite3Base 49;
+function SQLite3_Data_Count(Stmt: PSQLite3_Stmt): Integer; syscall SQLite3Base 50;
 
 implementation
 

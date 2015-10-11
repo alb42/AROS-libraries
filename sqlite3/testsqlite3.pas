@@ -27,6 +27,7 @@ var
   v: LongWord;
   Res: PSQLite3_Stmt;
   Rest: PChar;
+  RestW: PWideChar;
 begin
   if Assigned(sqlite3Base) then
   begin
@@ -119,7 +120,23 @@ begin
           rc := sqlite3_step(Res);
           if rc = SQLITE_ROW then
           begin
+            writeln('Number of results: ', sqlite3_Data_Count(Res));
+            writeln('Num of Colums: ', sqlite3_Column_Count(res));
+            Rest := sqlite3_Column_Name(res, 0);
+            if Assigned(Rest) then
+            begin
+              writeln('name of column 0: ', Rest);
+            end;
+            RestW := sqlite3_Column_Name16(res, 0);
+            if Assigned(RestW) then
+            begin
+              writeln('name of column as WideChar 0: ', WideString(RestW));
+            end;
             writeln('Version got by prepare API: ', sqlite3_Column_Text(res, 0));
+          end else
+          begin
+            writeln('Error: Step Result <> SQLITE_ROW but ', rc);
+            isOK := False;
           end;
           sqlite3_finalize(Res);
         end;
@@ -129,6 +146,12 @@ begin
     begin
       writeln('Error on open/create DataBaseFile ', rc);
     end;
+    writeln();
+    if IsOK then
+      writeln('### All test completed ###')
+    else
+      writeln('### ERROR, tests stopped ###');
+    writeln();
     writeln('Lib Closed');
   end else
     writeln('Lib Not Open');
