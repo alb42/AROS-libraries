@@ -495,6 +495,73 @@ AROS_LH1(int, sqlite3_reset,
     AROS_LIBFUNC_EXIT
 }
 
+AROS_LH1(int, sqlite3_errcode,
+    AROS_LHA(sqlite3 *, db, A0),
+    LIBBASETYPEPTR, Base, 27, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_errcode \n");
+
+    return sqlite3_errcode(db);
+
+    AROS_LIBFUNC_EXIT
+}
+
+
+AROS_LH1(int, sqlite3_extended_errcode,
+    AROS_LHA(sqlite3 *, db, A0),
+    LIBBASETYPEPTR, Base, 28, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_extended_errcode \n");
+
+    return sqlite3_extended_errcode(db);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(const char *, sqlite3_errmsg,
+    AROS_LHA(sqlite3 *, db, A0),
+    LIBBASETYPEPTR, Base, 29, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_errmsg \n");
+
+    return sqlite3_errmsg(db);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(const void *, sqlite3_errmsg16,
+    AROS_LHA(sqlite3 *, db, A0),
+    LIBBASETYPEPTR, Base, 30, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_errmsg16 \n");
+
+    return sqlite3_errmsg16(db);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH3(int, sqlite3_limit,
+    AROS_LHA(sqlite3 *, db, A0),
+    AROS_LHA(int , id, D0),
+    AROS_LHA(int , newVal, D1),
+    LIBBASETYPEPTR, Base, 31, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_limit \n");
+
+    return sqlite3_limit(db, id, newVal);
+
+    AROS_LIBFUNC_EXIT
+}
 
 const APTR FuncTable[] =
 {
@@ -524,6 +591,11 @@ const APTR FuncTable[] =
     &AROS_SLIB_ENTRY(sqlite3_column_value,LIBHEADNAME,24),
     &AROS_SLIB_ENTRY(sqlite3_finalize,LIBHEADNAME,25),
     &AROS_SLIB_ENTRY(sqlite3_reset,LIBHEADNAME,26),
+    &AROS_SLIB_ENTRY(sqlite3_errcode,LIBHEADNAME,27),
+    &AROS_SLIB_ENTRY(sqlite3_extended_errcode,LIBHEADNAME,28),
+    &AROS_SLIB_ENTRY(sqlite3_errmsg,LIBHEADNAME,29),
+    &AROS_SLIB_ENTRY(sqlite3_errmsg16,LIBHEADNAME,30),
+    &AROS_SLIB_ENTRY(sqlite3_limit,LIBHEADNAME,31),
     (void *)-1
 };
 

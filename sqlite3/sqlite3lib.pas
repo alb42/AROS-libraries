@@ -38,6 +38,19 @@ const
   SQLITE_ROW        = 100; // sqlite3_step() has another row ready
   SQLITE_DONE       = 101; // sqlite3_step() has finished executing
 
+// for sqlite3_Limit
+  SQLITE_LIMIT_LENGTH              = 0;
+  SQLITE_LIMIT_SQL_LENGTH          = 1;
+  SQLITE_LIMIT_COLUMN              = 2;
+  SQLITE_LIMIT_EXPR_DEPTH          = 3;
+  SQLITE_LIMIT_COMPOUND_SELECT     = 4;
+  SQLITE_LIMIT_VDBE_OP             = 5;
+  SQLITE_LIMIT_FUNCTION_ARG        = 6;
+  SQLITE_LIMIT_ATTACHED            = 7;
+  SQLITE_LIMIT_LIKE_PATTERN_LENGTH = 8;
+  SQLITE_LIMIT_VARIABLE_NUMBER     = 9;
+  SQLITE_LIMIT_TRIGGER_DEPTH       = 10;
+
 type
   SQLite3_Int64 = Int64;
 
@@ -84,6 +97,12 @@ function SQLite3_Column_Text16(pStmt: PSQLite3_Stmt; iCol: Integer): PWideChar; 
 function SQLite3_Column_Type(pStmt: PSQLite3_Stmt; iCol: Integer): Integer; syscall SQLite3Base 23;
 function SQLite3_Column_Value(pStmt: PSQLite3_Stmt; iCol: Integer): PSQLite3_Value; syscall SQLite3Base 24;
 function SQLite3_Finalize(pStmt: PSQLite3_Stmt): Integer; syscall SQLite3Base 25;
+function SQLite3_Reset(pStmt: PSQLite3_Stmt): Integer; syscall SQLite3Base 26;
+function SQLite3_ErrCode(db: PSQLite3): Integer; syscall SQLite3Base 27;
+function SQLite3_Extended_ErrCode(db: PSQLite3): Integer; syscall SQLite3Base 28;
+function SQLite3_ErrMsg(db: PSQLite3): PChar; syscall SQLite3Base 29;
+function SQLite3_ErrMsg16(db: PSQLite3): PWideChar; syscall SQLite3Base 30;
+function SQLite3_Limit(db: PSQLite3; ID: Integer; NewVal: Integer): Integer; syscall SQLite3Base 31;
 
 implementation
 
