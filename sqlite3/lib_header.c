@@ -1053,6 +1053,222 @@ AROS_LH4(void , sqlite3_set_auxdata,
     AROS_LIBFUNC_EXIT
 }
 
+AROS_LH0(const char *, sqlite3_sourceid,
+    LIBBASETYPEPTR, Base, 67, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_sourceid \n");
+
+    return sqlite3_sourceid();
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH2(int , sqlite3_extended_result_codes,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    AROS_LHA(int , OnOff, D0),
+    LIBBASETYPEPTR, Base, 68, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_extended_result_codes \n");
+
+    return sqlite3_extended_result_codes(pDb, OnOff);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(sqlite3_int64 , sqlite3_last_insert_rowid,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    LIBBASETYPEPTR, Base, 69, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_last_insert_rowid \n");
+
+    return sqlite3_last_insert_rowid(pDb);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(int , sqlite3_changes,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    LIBBASETYPEPTR, Base, 70, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_changes \n");
+
+    return sqlite3_changes(pDb);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(int , sqlite3_total_changes,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    LIBBASETYPEPTR, Base, 71, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_total_changes \n");
+
+    return sqlite3_total_changes(pDb);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(void , sqlite3_interrupt,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    LIBBASETYPEPTR, Base, 72, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_interrupt \n");
+
+    return sqlite3_interrupt(pDb);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(int , sqlite3_complete,
+    AROS_LHA(const char *, sql, A0),
+    LIBBASETYPEPTR, Base, 73, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_complete \n");
+
+    return sqlite3_complete(sql);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(int , sqlite3_complete16,
+    AROS_LHA(const void *, sql, A0),
+    LIBBASETYPEPTR, Base, 74, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_complete16 \n");
+
+    return sqlite3_complete16(sql);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH3(int , sqlite3_busy_handler,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    AROS_LHA(int(*callback),(void*,int), A1),
+    AROS_LHA(void *, data, A2),
+    LIBBASETYPEPTR, Base, 75, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_busy_handler \n");
+
+    return sqlite3_busy_handler(pDb, callback, data);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH2(int , sqlite3_busy_timeout,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    AROS_LHA(int , ms, D0),
+    LIBBASETYPEPTR, Base, 76, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_busy_timeout \n");
+
+    return sqlite3_busy_timeout(pDb, ms);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH6(int , sqlite3_get_table,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    AROS_LHA(const char *, zSql, A1),
+    AROS_LHA(char ***, pazResult, A2),
+    AROS_LHA(int *, pnRow, A3),
+    AROS_LHA(int *, pnColumn, A4),
+    AROS_LHA(char **, pzErrmsg, A5),
+    LIBBASETYPEPTR, Base, 77, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_get_table \n");
+
+    return sqlite3_get_table(pDb, zSql, pazResult, pnRow, pnColumn, pzErrmsg);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(void , sqlite3_free_table,
+    AROS_LHA(char **, Result, A2),
+    LIBBASETYPEPTR, Base, 78, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_free_table \n");
+
+    sqlite3_free_table(Result);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(void *, sqlite3_malloc,
+    AROS_LHA(int, size, D0),
+    LIBBASETYPEPTR, Base, 79, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_malloc \n");
+
+    return sqlite3_malloc(size);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH2(void *, sqlite3_realloc,
+    AROS_LHA(void *, ptr, A0),
+    AROS_LHA(int, size, D0),
+    LIBBASETYPEPTR, Base, 80, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_realloc \n");
+
+    return sqlite3_realloc(ptr, size);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH0(sqlite3_int64 , sqlite3_memory_used,
+    LIBBASETYPEPTR, Base, 81, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_memory_used \n");
+
+    return sqlite3_memory_used();
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(sqlite3_int64 , sqlite3_memory_highwater,
+    AROS_LHA(int, resetflag, D0),
+    LIBBASETYPEPTR, Base, 82, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_memory_highwater \n");
+
+    return sqlite3_memory_highwater(resetflag);
+
+    AROS_LIBFUNC_EXIT
+}
+
 const APTR FuncTable[] =
 {
     &AROS_SLIB_ENTRY(LibOpen,LIBHEADNAME,1),
@@ -1121,6 +1337,22 @@ const APTR FuncTable[] =
     &AROS_SLIB_ENTRY(sqlite3_user_data,LIBHEADNAME,64),
     &AROS_SLIB_ENTRY(sqlite3_get_auxdata,LIBHEADNAME,65),
     &AROS_SLIB_ENTRY(sqlite3_set_auxdata,LIBHEADNAME,66),
+    &AROS_SLIB_ENTRY(sqlite3_sourceid,LIBHEADNAME,67),
+    &AROS_SLIB_ENTRY(sqlite3_extended_result_codes,LIBHEADNAME,68),
+    &AROS_SLIB_ENTRY(sqlite3_last_insert_rowid,LIBHEADNAME,69),
+    &AROS_SLIB_ENTRY(sqlite3_changes,LIBHEADNAME,70),
+    &AROS_SLIB_ENTRY(sqlite3_total_changes,LIBHEADNAME,71),
+    &AROS_SLIB_ENTRY(sqlite3_interrupt,LIBHEADNAME,72),
+    &AROS_SLIB_ENTRY(sqlite3_complete,LIBHEADNAME,73),
+    &AROS_SLIB_ENTRY(sqlite3_complete16,LIBHEADNAME,74),
+    &AROS_SLIB_ENTRY(sqlite3_busy_handler,LIBHEADNAME,75),
+    &AROS_SLIB_ENTRY(sqlite3_busy_timeout,LIBHEADNAME,76),
+    &AROS_SLIB_ENTRY(sqlite3_get_table,LIBHEADNAME,77),
+    &AROS_SLIB_ENTRY(sqlite3_free_table,LIBHEADNAME,78),
+    &AROS_SLIB_ENTRY(sqlite3_malloc,LIBHEADNAME,79),
+    &AROS_SLIB_ENTRY(sqlite3_realloc,LIBHEADNAME,80),
+    &AROS_SLIB_ENTRY(sqlite3_memory_used,LIBHEADNAME,81),
+    &AROS_SLIB_ENTRY(sqlite3_memory_highwater,LIBHEADNAME,82),
     (void *)-1
 };
 

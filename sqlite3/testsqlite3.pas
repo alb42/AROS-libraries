@@ -4,7 +4,7 @@ program testsqlite3;
 uses
   Exec, StrUtils, sqlite3lib;
 
-procedure MyCallback(Data: Pointer; NumCol: Integer; Cols: PPChar; ColNames: PPChar); cdecl;
+function MyCallback(Data: Pointer; NumCol: Integer; Cols: PPChar; ColNames: PPChar): Integer; cdecl;
 var
   i: Integer;
 begin
@@ -13,6 +13,7 @@ begin
   begin
     writeln(ColNames[i],' = ', ifthen(Assigned(Cols[i]), Cols[i], 'NULL'));
   end;
+  Result := 0;
   writeln('<--Callback function');
 end;
 
@@ -24,7 +25,6 @@ var
   ErrMsg: PChar;
   isOK: Boolean;
   Ver: PChar;
-  v: LongWord;
   Res: PSQLite3_Stmt;
   Rest: PChar;
   RestW: PWideChar;
@@ -38,7 +38,8 @@ begin
     begin
       writeln('Version: ' + Ver);
     end;
-    writeln('Integer Version:', sqlite3_libversion_number());
+    writeln('Integer Version: ', sqlite3_libversion_number());
+    writeln('Source ID: ', SQLite3_SourceID());
     writeln('Open/create db-file');
     //rc := sqlite3_open('test1.sqlite', db); // in file db
     rc := sqlite3_open(':memory:', db);       // in memory db
@@ -85,6 +86,9 @@ begin
         end else
         begin
           writeln('OK');
+          writeln('Number of Row Changes: ', SQLite3_Changes(db));
+          writeln('Number of Total Row Changes: ', SQLite3_Changes(db));
+          writeln('Last insert ID: ', SQLite3_Last_Insert_RowID(db));
         end;
       end;
 
@@ -149,6 +153,8 @@ begin
           sqlite3_finalize(Res);
         end;
       end;
+      writeln('memory used: ', sqlite3_memory_used());
+      writeln('highest memory used: ', sqlite3_memory_highwater(0));
       sqlite3_close(db);
     end else
     begin

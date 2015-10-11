@@ -37,6 +37,74 @@ const
   SQLITE_NOTADB     = 26;  // File opened that is not a database file
   SQLITE_ROW        = 100; // sqlite3_step() has another row ready
   SQLITE_DONE       = 101; // sqlite3_step() has finished executing
+// Extended Result Codes
+  SQLITE_IOERR_READ              = SQLITE_IOERR or (1 shl 8);
+  SQLITE_IOERR_SHORT_READ        = SQLITE_IOERR or (2 shl 8);
+  SQLITE_IOERR_WRITE             = SQLITE_IOERR or (3 shl 8);
+  SQLITE_IOERR_FSYNC             = SQLITE_IOERR or (4 shl 8);
+  SQLITE_IOERR_DIR_FSYNC         = SQLITE_IOERR or (5 shl 8);
+  SQLITE_IOERR_TRUNCATE          = SQLITE_IOERR or (6 shl 8);
+  SQLITE_IOERR_FSTAT             = SQLITE_IOERR or (7 shl 8);
+  SQLITE_IOERR_UNLOCK            = SQLITE_IOERR or (8 shl 8);
+  SQLITE_IOERR_RDLOCK            = SQLITE_IOERR or (9 shl 8);
+  SQLITE_IOERR_DELETE            = SQLITE_IOERR or (10 shl 8);
+  SQLITE_IOERR_BLOCKED           = SQLITE_IOERR or (11 shl 8);
+  SQLITE_IOERR_NOMEM             = SQLITE_IOERR or (12 shl 8);
+  SQLITE_IOERR_ACCESS            = SQLITE_IOERR or (13 shl 8);
+  SQLITE_IOERR_CHECKRESERVEDLOCK = SQLITE_IOERR or (14 shl 8);
+  SQLITE_IOERR_LOCK              = SQLITE_IOERR or (15 shl 8);
+  SQLITE_IOERR_CLOSE             = SQLITE_IOERR or (16 shl 8);
+  SQLITE_IOERR_DIR_CLOSE         = SQLITE_IOERR or (17 shl 8);
+  SQLITE_IOERR_SHMOPEN           = SQLITE_IOERR or (18 shl 8);
+  SQLITE_IOERR_SHMSIZE           = SQLITE_IOERR or (19 shl 8);
+  SQLITE_IOERR_SHMLOCK           = SQLITE_IOERR or (20 shl 8);
+  SQLITE_LOCKED_SHAREDCACHE      = SQLITE_LOCKED or (1 shl 8);
+  SQLITE_BUSY_RECOVERY           = SQLITE_BUSY or (1 shl 8);
+  SQLITE_CANTOPEN_NOTEMPDIR      = SQLITE_CANTOPEN or (1 shl 8);
+// Flags for Open Operations
+  SQLITE_OPEN_READONLY        = $00000001;  // Ok for sqlite3_open_v2()
+  SQLITE_OPEN_READWRITE       = $00000002;  // Ok for sqlite3_open_v2()
+  SQLITE_OPEN_CREATE          = $00000004;  // Ok for sqlite3_open_v2()
+  SQLITE_OPEN_DELETEONCLOSE   = $00000008;  // VFS only
+  SQLITE_OPEN_EXCLUSIVE       = $00000010;  // VFS only
+  SQLITE_OPEN_AUTOPROXY       = $00000020;  // VFS only
+  SQLITE_OPEN_MAIN_DB         = $00000100;  // VFS only
+  SQLITE_OPEN_TEMP_DB         = $00000200;  // VFS only
+  SQLITE_OPEN_TRANSIENT_DB    = $00000400;  // VFS only
+  SQLITE_OPEN_MAIN_JOURNAL    = $00000800;  // VFS only
+  SQLITE_OPEN_TEMP_JOURNAL    = $00001000;  // VFS only
+  SQLITE_OPEN_SUBJOURNAL      = $00002000;  // VFS only
+  SQLITE_OPEN_MASTER_JOURNAL  = $00004000;  // VFS only
+  SQLITE_OPEN_NOMUTEX         = $00008000;  // Ok for sqlite3_open_v2()
+  SQLITE_OPEN_FULLMUTEX       = $00010000;  // Ok for sqlite3_open_v2()
+  SQLITE_OPEN_SHAREDCACHE     = $00020000;  // Ok for sqlite3_open_v2()
+  SQLITE_OPEN_PRIVATECACHE    = $00040000;  // Ok for sqlite3_open_v2()
+  SQLITE_OPEN_WAL             = $00080000;  // VFS only
+// device characteristics
+  SQLITE_IOCAP_ATOMIC                = $00000001;
+  SQLITE_IOCAP_ATOMIC512             = $00000002;
+  SQLITE_IOCAP_ATOMIC1K              = $00000004;
+  SQLITE_IOCAP_ATOMIC2K              = $00000008;
+  SQLITE_IOCAP_ATOMIC4K              = $00000010;
+  SQLITE_IOCAP_ATOMIC8K              = $00000020;
+  SQLITE_IOCAP_ATOMIC16K             = $00000040;
+  SQLITE_IOCAP_ATOMIC32K             = $00000080;
+  SQLITE_IOCAP_ATOMIC64K             = $00000100;
+  SQLITE_IOCAP_SAFE_APPEND           = $00000200;
+  SQLITE_IOCAP_SEQUENTIAL            = $00000400;
+  SQLITE_IOCAP_UNDELETABLE_WHEN_OPEN = $00000800;
+// File Locking levels
+  SQLITE_LOCK_NONE         = 0;
+  SQLITE_LOCK_SHARED       = 1;
+  SQLITE_LOCK_RESERVED     = 2;
+  SQLITE_LOCK_PENDING      = 3;
+  SQLITE_LOCK_EXCLUSIVE    = 4;
+// Synchronization Type Flags
+  SQLITE_SYNC_NORMAL       = $00002;
+  SQLITE_SYNC_FULL         = $00003;
+  SQLITE_SYNC_DATAONLY     = $00010;
+
+
 
 // for sqlite3_Limit
   SQLITE_LIMIT_LENGTH              = 0;
@@ -72,6 +140,9 @@ const
 type
   SQLite3_Int64 = Int64;
 
+  SQLite3_mutex = record end;
+  PSQLite3_Mutex = ^SQLite3_Mutex;
+
   SQLite3 = record end;
   PSQLite3 = ^SQLite3;
   PPSQLite3 = ^PSQLite3;
@@ -96,6 +167,8 @@ type
   PSQLite3Base = ^TSQLite3Base;
 
   TSQLite3_Destructor_Type = procedure(n: Pointer); cdecl;
+  TSQLite3_Callback = function(Data: Pointer; NumCol: Integer; Cols: PPChar; ColNames: PPChar): Integer; cdecl;
+  TSQLite3_BusyCallback = function(Data: Pointer; NumCalls: Integer): Integer;
 const
   SQLITE_STATIC    = 0;
   SQLITE_TRANSIENT = -1;
@@ -105,7 +178,7 @@ var
 
 function SQLite3_Open(Name: PChar; var db: PSQLite3): Integer; syscall SQLite3Base 5;
 procedure SQLite3_Close(db: PSQLite3); syscall SQLite3Base 6;
-function SQLite3_Exec(db: PSQLite3; sql: PChar; callback: Pointer; data: Pointer; var ErrMsg: PChar): Integer; syscall SQLite3Base 7;
+function SQLite3_Exec(db: PSQLite3; sql: PChar; Callback: TSQLite3_Callback; data: Pointer; var ErrMsg: PChar): Integer; syscall SQLite3Base 7;
 procedure SQLite3_Free(Mem: Pointer); syscall SQLite3Base 8;
 function SQLite3_LibVersion(): PChar; syscall SQLite3Base 9;
 function SQLite3_LibVersion_Number(): Integer; syscall SQLite3Base 10;
@@ -130,13 +203,13 @@ function SQLite3_Extended_ErrCode(db: PSQLite3): Integer; syscall SQLite3Base 28
 function SQLite3_ErrMsg(db: PSQLite3): PChar; syscall SQLite3Base 29;
 function SQLite3_ErrMsg16(db: PSQLite3): PWideChar; syscall SQLite3Base 30;
 function SQLite3_Limit(db: PSQLite3; ID: Integer; NewVal: Integer): Integer; syscall SQLite3Base 31;
-function SQLite3_Bind_Blob(Stmt: PSQLite3_Stmt; Idx: Integer; Value: Pointer; n: Integer; Destroyer: Pointer): Integer; syscall SQLite3Base 32;
+function SQLite3_Bind_Blob(Stmt: PSQLite3_Stmt; Idx: Integer; Value: Pointer; n: Integer; Destroyer: TSQLite3_Destructor_Type): Integer; syscall SQLite3Base 32;
 function SQLite3_Bind_Double(Stmt: PSQLite3_Stmt; Idx: Integer; Value: Double): Integer; syscall SQLite3Base 33;
 function SQLite3_Bind_Int(Stmt: PSQLite3_Stmt; Idx: Integer; Value: Integer): Integer; syscall SQLite3Base 34;
 function SQLite3_Bind_Int64(Stmt: PSQLite3_Stmt; Idx: Integer; Value: SQLite3_Int64): Integer; syscall SQLite3Base 35;
 function SQLite3_Bind_Null(Stmt: PSQLite3_Stmt; Idx: Integer): Integer; syscall SQLite3Base 36;
-function SQLite3_Bind_Text(Stmt: PSQLite3_Stmt; Idx: Integer; Value: PChar; n: Integer; Destroyer: Pointer): Integer; syscall SQLite3Base 37;
-function SQLite3_Bind_Text16(Stmt: PSQLite3_Stmt; Idx: Integer; Value: PWideChar; n: Integer; Destroyer: Pointer): Integer; syscall SQLite3Base 38;
+function SQLite3_Bind_Text(Stmt: PSQLite3_Stmt; Idx: Integer; Value: PChar; n: Integer; Destroyer: TSQLite3_Destructor_Type): Integer; syscall SQLite3Base 37;
+function SQLite3_Bind_Text16(Stmt: PSQLite3_Stmt; Idx: Integer; Value: PWideChar; n: Integer; Destroyer: TSQLite3_Destructor_Type): Integer; syscall SQLite3Base 38;
 function SQLite3_Bind_Value(Stmt: PSQLite3_Stmt; Idx: Integer; Value: PSQLite3_Value): Integer; syscall SQLite3Base 39;
 function SQLite3_Bind_ZeroBlob(Stmt: PSQLite3_Stmt; Idx: Integer; n: Integer): Integer; syscall SQLite3Base 40;
 function SQLite3_Bind_Parameter_Count(Stmt: PSQLite3_Stmt): Integer; syscall SQLite3Base 41;
@@ -165,6 +238,22 @@ function SQLite3_Aggregate_Context(Context: PSQLite3_Context; nBytes: Integer): 
 function SQLite3_User_Data(Context: PSQLite3_Context): Pointer; syscall SQLite3Base 64;
 function SQLite3_Get_Auxdata(Context: PSQLite3_Context; N: Integer): Pointer; syscall SQLite3Base 65;
 procedure SQLite3_Set_Auxdata(Context: PSQLite3_Context; N: Integer; Data: Pointer; Destroyer: TSQLite3_Destructor_Type); syscall SQLite3Base 66;
+function SQLite3_SourceID(): PChar; syscall SQLite3Base 67;
+function SQLite3_Extended_Result_Codes(db: PSQLite3; OnOff: Integer): Integer; syscall SQLite3Base 68;
+function SQLite3_Last_Insert_RowID(db: PSQLite3): SQLite3_Int64; syscall SQLite3Base 69;
+function SQLite3_Changes(db: PSQLite3): Integer; syscall SQLite3Base 70;
+function SQLite3_Total_Changes(db: PSQLite3): Integer; syscall SQLite3Base 71;
+function SQLite3_Interrupt(db: PSQLite3): Integer; syscall SQLite3Base 72;
+function SQLite3_Complete(SQL: PChar): Integer; syscall SQLite3Base 73;
+function SQLite3_Complete16(SQL: PWideChar): Integer; syscall SQLite3Base 74;
+function SQLite3_Busy_Handler(db: PSQLite3; CallBack: TSQLite3_BusyCallback; Data: Pointer): Integer; syscall SQLite3Base 75;
+function SQLite3_Busy_Timeout(db: PSQLite3; ms: Integer): Integer; syscall SQLite3Base 76;
+function SQLite3_Get_Table(db: PSQLite3; zSQL: PChar;var azResult: PPChar; var nRow: Integer; var nColumn: Integer; var zErrMsg: PChar): Integer; syscall SQLite3Base 77;
+procedure SQLite3_Free_Table(azResult: PPChar); syscall SQLite3Base 78;
+function SQLite3_malloc(Size: Integer): Pointer; syscall SQLite3Base 79;
+function SQLite3_Realloc(Ptr: Pointer; Size: Integer): Pointer; syscall SQLite3Base 80;
+function SQLite3_Memory_Used(): SQLite3_Int64; syscall SQLite3Base 81;
+function SQLite3_Memory_Highwater(ResetFlag: Integer): SQLite3_Int64; syscall SQLite3Base 82;
 
 implementation
 
