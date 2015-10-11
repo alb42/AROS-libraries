@@ -22,12 +22,6 @@
 #include <aros/symbolsets.h>
 #include "lib.h"
 
-THIS_PROGRAM_HANDLES_SYMBOLSETS
-
-void *__startup_entries_next;
-void *__includelibrarieshandling;
-void *__startup_error;
-
 const UBYTE lib_name[] = LIBHEADNAMESTR ".library";
 
 const UBYTE lib_id[] = "$VER: " LIBHEADNAMESTR ".library " VERS " (" COMPDATE ") by ALB42\n";
@@ -275,23 +269,22 @@ AROS_LH0(int, sqlite3_libversion_number,
     AROS_LIBFUNC_EXIT
 }
 
-
-
 const APTR FuncTable[] =
 {
-    &AROS_SLIB_ENTRY(LibOpen,LIBHEADNAME),
-    &AROS_SLIB_ENTRY(LibClose,LIBHEADNAME),
-    &AROS_SLIB_ENTRY(LibExpunge,LIBHEADNAME),
-    &AROS_SLIB_ENTRY(LibReserved,LIBHEADNAME),
-    &AROS_SLIB_ENTRY(sqlite3_open,LIBHEADNAME),
-    &AROS_SLIB_ENTRY(sqlite3_close,LIBHEADNAME),
-    &AROS_SLIB_ENTRY(sqlite3_exec,LIBHEADNAME),
-    &AROS_SLIB_ENTRY(sqlite3_free,LIBHEADNAME),
-    &AROS_SLIB_ENTRY(sqlite3_libversion,LIBHEADNAME),
-    &AROS_SLIB_ENTRY(sqlite3_libversion_number,LIBHEADNAME),
+    &AROS_SLIB_ENTRY(LibOpen,LIBHEADNAME,1),
+    &AROS_SLIB_ENTRY(LibClose,LIBHEADNAME,2),
+    &AROS_SLIB_ENTRY(LibExpunge,LIBHEADNAME,3),
+    &AROS_SLIB_ENTRY(LibReserved,LIBHEADNAME,4),
+    &AROS_SLIB_ENTRY(sqlite3_open,LIBHEADNAME,5),
+    &AROS_SLIB_ENTRY(sqlite3_close,LIBHEADNAME,6),
+    &AROS_SLIB_ENTRY(sqlite3_exec,LIBHEADNAME,7),
+    &AROS_SLIB_ENTRY(sqlite3_free,LIBHEADNAME,8),
+    &AROS_SLIB_ENTRY(sqlite3_libversion,LIBHEADNAME,9),
+    &AROS_SLIB_ENTRY(sqlite3_libversion_number,LIBHEADNAME,10),
     (void *)-1
 };
 
-ADD2INITLIB(InitLib,0)
-ADD2EXPUNGELIB(LibExpungeIntern, 0)
+void *__PROGRAM_ENTRIES__symbol_set_handler_missing;
+void *__LIBS__symbol_set_handler_missing;
+
 
