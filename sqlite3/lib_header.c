@@ -202,7 +202,7 @@ AROS_LH2(int, sqlite3_open,
     AROS_LIBFUNC_EXIT
 }
 
-AROS_LH1(void, sqlite3_close,
+AROS_LH1(int , sqlite3_close,
     AROS_LHA(sqlite3 *, pDb, A0),
     LIBBASETYPEPTR, Base, 6, LIBHEADNAME)
 {
@@ -210,7 +210,7 @@ AROS_LH1(void, sqlite3_close,
     USESYSBASE
     bug("sqlite3_close \n");
 
-    sqlite3_close(pDb);
+    return sqlite3_close(pDb);
 
     AROS_LIBFUNC_EXIT
 }

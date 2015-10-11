@@ -206,7 +206,7 @@ type
 
   TSQLite3_Destructor_Type = procedure(n: Pointer); cdecl;
   TSQLite3_Callback = function(Data: Pointer; NumCol: Integer; Cols: PPChar; ColNames: PPChar): Integer; cdecl;
-  TSQLite3_BusyCallback = function(Data: Pointer; NumCalls: Integer): Integer;
+  TSQLite3_BusyCallback = function(Data: Pointer; NumCalls: Integer): Integer; cdecl;
   TSQLite3_AuthCallback = function(pUserData: Pointer; Code: Integer; s1, s2, s3, s4: PChar): Integer; cdecl;
   TSQLite3_ProgressCallback = function(pUserData: Pointer): Integer; cdecl;
 const
@@ -217,7 +217,7 @@ var
   SQLite3Base: PSQLite3Base;
 
 function SQLite3_Open(FileName: PChar; var db: PSQLite3): Integer; syscall SQLite3Base 5;
-procedure SQLite3_Close(db: PSQLite3); syscall SQLite3Base 6;
+function SQLite3_Close(db: PSQLite3): Integer; syscall SQLite3Base 6;
 function SQLite3_Exec(db: PSQLite3; sql: PChar; Callback: TSQLite3_Callback; data: Pointer; var ErrMsg: PChar): Integer; syscall SQLite3Base 7;
 procedure SQLite3_Free(Mem: Pointer); syscall SQLite3Base 8;
 function SQLite3_LibVersion(): PChar; syscall SQLite3Base 9;
