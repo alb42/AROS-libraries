@@ -2,7 +2,7 @@ program testsqlite3;
 
 {$mode delphi}{$H+}
 uses
-  Exec, StrUtils, sqlite3lib;
+  Exec, SysUtils, StrUtils, sqlite3lib;
 
 function MyCallback(Data: Pointer; NumCol: Integer; Cols: PPChar; ColNames: PPChar): Integer; cdecl;
 var
@@ -29,7 +29,10 @@ var
   Rest: PChar;
   RestW: PWideChar;
   SQLVal: PSQLite3_Value;
+  i: Integer;
+  Count: Integer;
 begin
+  writeln('Runing on ', {$I %FPCTARGETCPU%} + '-' + {$I %FPCTARGETOS%});
   if Assigned(sqlite3Base) then
   begin
     writeln('Successfully Open');
@@ -75,7 +78,7 @@ begin
            'INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)' +
            'VALUES (3, "Teddy", 23, "Norway", 20000.00 );' +
            'INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)' +
-           'VALUES (4, "Mark", 25, "Rich-Mond", 65000.00 );';
+           'VALUES (4, "Mark", 26, "Rich-Mond", 65000.00 );';
 
         rc := sqlite3_exec(db, PChar(sql), nil, nil, ErrMsg);
         if rc <> 0 then
@@ -94,9 +97,8 @@ begin
 
       if isOK then
       begin
-        writeln('Select Data');
-        sql := 'SELECT * from COMPANY';
-
+        writeln('Select Data with age > 25');
+        sql := 'SELECT ID,NAME,AGE from COMPANY WHERE AGE > 25';
         rc := sqlite3_exec(db, PChar(sql), @MyCallback, nil, ErrMsg);
         if rc <> 0 then
         begin
@@ -107,6 +109,35 @@ begin
         begin
           writeln('OK');
         end;
+      end;
+      if isOK then
+      begin
+        writeln('Select all Data');
+        sql := 'SELECT * from COMPANY';
+        rc := sqlite3_prepare_v2(db, PChar(sql), -1, res, Rest);
+        Count := 0;
+        while sqlite3_step(Res) = SQLITE_ROW do
+        begin
+          Inc(Count);
+          writeln('----- start ', Count , ' -------');
+          for i := 0 to sqlite3_Column_Count(res) - 1 do
+          begin
+            Rest := sqlite3_Column_Name(res, i);
+            write(Rest, ' = ');
+            case sqlite3_column_Type(res, i) of
+              SQLITE_INTEGER: writeln(sqlite3_Column_Int(res, i));
+              SQLITE_FLOAT: writeln(floattostrF(sqlite3_Column_Double(res, i), ffFixed, 8,2));
+              SQLITE_BLOB: writeln('<BLOB>');
+              SQLITE_NULL: writeln('<NULL>');
+              SQLITE_TEXT: writeln(sqlite3_Column_Text(res, i));
+              else
+                writeln('<UNKNOWN TYPE: ', sqlite3_column_Type(res, i), '>');
+            end;
+          end;
+          writeln('----- end ', Count , ' -------');
+          writeln();
+        end;
+
       end;
       if isOK then
       begin
