@@ -212,6 +212,9 @@ type
   TSQLite3_FunctionCallback = procedure(Ctx: PSQLite3_context; N: Integer; V: PPSQLite3_value); cdecl;
   TSQLite3_StepCallback = procedure(Ctx: PSQLite3_context; N: Integer; V: PPSQLite3_value); cdecl;
   TSQLite3_FinalCallback = procedure(Ctx: PSQLite3_context); cdecl;
+  TSQLite3_CompareCallback = function(User: Pointer; A: Integer; B: Pointer; C: Integer; D: Pointer): Integer; cdecl;
+  TSQLite3_Collation_Needed_CallBack = function(User: Pointer; Db: PSQLite3; eTextRep: Integer; s: PAnsiChar): Pointer; cdecl;
+  TSQLite3_Collation_Needed_CallBack16 = function(User: Pointer; Db: PSQLite3; eTextRep: Integer; s: PWideChar): Pointer; cdecl;
 
 const
   SQLITE_STATIC    = 0;
@@ -328,6 +331,11 @@ function SQLite3_Next_Stmt(db: PSQLite3; Stmt: PSQLite3_Stmt): PSQLite3_Stmt; sy
 function SQLite3_Create_Function(db: PSQLite3; zFunctionName: PAnsiChar; nArg: Integer; eTextRep: Integer; pApp: Pointer; xFunc: TSQLite3_FunctionCallback; xStep: TSQLite3_StepCallback; xFinal: TSQLite3_FinalCallback): Integer; syscall SQLite3Base 110;
 function SQLite3_Create_Function16(db: PSQLite3; zFunctionName: PWideChar; nArg: Integer; eTextRep: Integer; pApp: Pointer; xFunc: TSQLite3_FunctionCallback; xStep: TSQLite3_StepCallback; xFinal: TSQLite3_FinalCallback): Integer; syscall SQLite3Base 111;
 function SQLite3_Create_Function_v2(db: PSQLite3; zFunctionName: PAnsiChar; nArg: Integer; eTextRep: Integer; pApp: Pointer; xFunc: TSQLite3_FunctionCallback; xStep: TSQLite3_StepCallback; xFinal: TSQLite3_FinalCallback; xDestroy: TSQLite3_Destructor_Type): Integer; syscall SQLite3Base 112;
+function SQLite3_Create_Collation(db: PSQLite3; zName: PAnsiChar; eTextRep: Integer; pArg: Pointer; xCompare: TSQLite3_CompareCallback): Integer; syscall SQLite3Base 113;
+function SQLite3_Create_Collation_v2(db: PSQLite3; zName: PAnsiChar; eTextRep: Integer; pArg: Pointer; xCompare: TSQLite3_CompareCallback; xDestroy: TSQLite3_Destructor_Type): Integer; syscall SQLite3Base 114;
+function SQLite3_Create_Collation16(db: PSQLite3; zName: PWideChar; eTextRep: Integer; pArg: Pointer; xCompare: TSQLite3_CompareCallback): Integer; syscall SQLite3Base 115;
+function SQLite3_Collation_Needed(db: PSQLite3; User: Pointer; Callback: TSQLite3_Collation_Needed_CallBack): Integer; syscall SQLite3Base 115;
+function SQLite3_Collation_Needed16(db: PSQLite3; User: Pointer; Callback: TSQLite3_Collation_Needed_CallBack16): Integer; syscall SQLite3Base 116;
 
 
 implementation

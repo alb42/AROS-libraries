@@ -1718,12 +1718,95 @@ AROS_LH9(int, sqlite3_create_function_v2,
 {
     AROS_LIBFUNC_INIT
     USESYSBASE
-    bug("sqlite3_create_function \n");
+    bug("sqlite3_create_function_v2 \n");
 
     return sqlite3_create_function_v2(pDb, zFunctionName, nArg, eTextRep, pApp, xFunc, xStep, xFinal, xDestroy);
 
     AROS_LIBFUNC_EXIT
 }
+
+AROS_LH5(int, sqlite3_create_collation,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    AROS_LHA(const char *, zName, A1),
+    AROS_LHA(int , eTextRep, D0),
+    AROS_LHA(void *, pArg, A2),
+    AROS_LHA(int(*xCompare),(void*,int,const void*,int,const void*), A3),
+    LIBBASETYPEPTR, Base, 113, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_create_collation \n");
+
+    return sqlite3_create_collation(pDb, zName, eTextRep, pArg, xCompare);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH6(int, sqlite3_create_collation_v2,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    AROS_LHA(const char *, zName, A1),
+    AROS_LHA(int , eTextRep, D0),
+    AROS_LHA(void *, pArg, A2),
+    AROS_LHA(int(*xCompare),(void*,int,const void*,int,const void*), A3),
+    AROS_LHA(void(*xDestroy),(void*), A4),
+    LIBBASETYPEPTR, Base, 114, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_create_collation_v2 \n");
+
+    return sqlite3_create_collation_v2(pDb, zName, eTextRep, pArg, xCompare, xDestroy);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH5(int, sqlite3_create_collation16,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    AROS_LHA(const void *, zName, A1),
+    AROS_LHA(int , eTextRep, D0),
+    AROS_LHA(void *, pArg, A2),
+    AROS_LHA(int(*xCompare),(void*,int,const void*,int,const void*), A3),
+    LIBBASETYPEPTR, Base, 115, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_create_collation16 \n");
+
+    return sqlite3_create_collation16(pDb, zName, eTextRep, pArg, xCompare);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH3(int, sqlite3_collation_needed,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    AROS_LHA(void *, User, A1),
+    AROS_LHA(void(*cb),(void*,sqlite3*,int eTextRep,const char*), A2),
+    LIBBASETYPEPTR, Base, 116, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_collation_needed \n");
+
+    return sqlite3_collation_needed(pDb, User, cb);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH3(int, sqlite3_collation_needed16,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    AROS_LHA(void *, User, A1),
+    AROS_LHA(void(*cb),(void*,sqlite3*,int eTextRep,const void*), A2),
+    LIBBASETYPEPTR, Base, 117, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_collation_needed16 \n");
+
+    return sqlite3_collation_needed16(pDb, User, cb);
+
+    AROS_LIBFUNC_EXIT
+}
+
 
 
 const APTR FuncTable[] =
@@ -1840,6 +1923,11 @@ const APTR FuncTable[] =
     &AROS_SLIB_ENTRY(sqlite3_create_function,LIBHEADNAME,110),
     &AROS_SLIB_ENTRY(sqlite3_create_function16,LIBHEADNAME,111),
     &AROS_SLIB_ENTRY(sqlite3_create_function_v2,LIBHEADNAME,112),
+    &AROS_SLIB_ENTRY(sqlite3_create_collation,LIBHEADNAME,113),
+    &AROS_SLIB_ENTRY(sqlite3_create_collation_v2,LIBHEADNAME,114),
+    &AROS_SLIB_ENTRY(sqlite3_create_collation16,LIBHEADNAME,115),
+    &AROS_SLIB_ENTRY(sqlite3_collation_needed,LIBHEADNAME,116),
+    &AROS_SLIB_ENTRY(sqlite3_collation_needed16,LIBHEADNAME,117),
     (void *)-1
 };
 
