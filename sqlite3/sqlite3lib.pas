@@ -334,8 +334,8 @@ function SQLite3_Create_Function_v2(db: PSQLite3; zFunctionName: PAnsiChar; nArg
 function SQLite3_Create_Collation(db: PSQLite3; zName: PAnsiChar; eTextRep: Integer; pArg: Pointer; xCompare: TSQLite3_CompareCallback): Integer; syscall SQLite3Base 113;
 function SQLite3_Create_Collation_v2(db: PSQLite3; zName: PAnsiChar; eTextRep: Integer; pArg: Pointer; xCompare: TSQLite3_CompareCallback; xDestroy: TSQLite3_Destructor_Type): Integer; syscall SQLite3Base 114;
 function SQLite3_Create_Collation16(db: PSQLite3; zName: PWideChar; eTextRep: Integer; pArg: Pointer; xCompare: TSQLite3_CompareCallback): Integer; syscall SQLite3Base 115;
-function SQLite3_Collation_Needed(db: PSQLite3; User: Pointer; Callback: TSQLite3_Collation_Needed_CallBack): Integer; syscall SQLite3Base 115;
-function SQLite3_Collation_Needed16(db: PSQLite3; User: Pointer; Callback: TSQLite3_Collation_Needed_CallBack16): Integer; syscall SQLite3Base 116;
+function SQLite3_Collation_Needed(db: PSQLite3; User: Pointer; Callback: TSQLite3_Collation_Needed_CallBack): Integer; syscall SQLite3Base 116;
+function SQLite3_Collation_Needed16(db: PSQLite3; User: Pointer; Callback: TSQLite3_Collation_Needed_CallBack16): Integer; syscall SQLite3Base 117;
 
 
 implementation
