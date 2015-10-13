@@ -209,6 +209,10 @@ type
   TSQLite3_BusyCallback = function(Data: Pointer; NumCalls: Integer): Integer; cdecl;
   TSQLite3_AuthCallback = function(pUserData: Pointer; Code: Integer; s1, s2, s3, s4: PChar): Integer; cdecl;
   TSQLite3_ProgressCallback = function(pUserData: Pointer): Integer; cdecl;
+  TSQLite3_FunctionCallback = procedure(Ctx: PSQLite3_context; N: Integer; V: PPSQLite3_value); cdecl;
+  TSQLite3_StepCallback = procedure(Ctx: PSQLite3_context; N: Integer; V: PPSQLite3_value); cdecl;
+  TSQLite3_FinalCallback = procedure(Ctx: PSQLite3_context); cdecl;
+
 const
   SQLITE_STATIC    = 0;
   SQLITE_TRANSIENT = -1;
@@ -321,6 +325,10 @@ function SQLite3_Sleep(ms: Integer): Integer; syscall SQLite3Base 106;
 function SQLite3_Get_Autocommit(db: PSQLite3): Integer; syscall SQLite3Base 107;
 function SQLite3_Db_Handle(Stmt: PSQLite3_Stmt): PSQLite3; syscall SQLite3Base 108;
 function SQLite3_Next_Stmt(db: PSQLite3; Stmt: PSQLite3_Stmt): PSQLite3_Stmt; syscall SQLite3Base 109;
+function SQLite3_Create_Function(db: PSQLite3; zFunctionName: PChar; nArg: Integer; eTextRep: Integer; pApp: Pointer; xFunc: TSQLite3_FunctionCallback; xStep: TSQLite3_StepCallback; xFinal: TSQLite3_FinalCallback): Integer; syscall SQLite3Base 110;
+function SQLite3_Create_Function16(db: PSQLite3; zFunctionName: PWideChar; nArg: Integer; eTextRep: Integer; pApp: Pointer; xFunc: TSQLite3_FunctionCallback; xStep: TSQLite3_StepCallback; xFinal: TSQLite3_FinalCallback): Integer; syscall SQLite3Base 111;
+function SQLite3_Create_Function_v2(db: PSQLite3; zFunctionName: PChar; nArg: Integer; eTextRep: Integer; pApp: Pointer; xFunc: TSQLite3_FunctionCallback; xStep: TSQLite3_StepCallback; xFinal: TSQLite3_FinalCallback; xDestroy: TSQLite3_Destructor_Type): Integer; syscall SQLite3Base 112;
+
 
 implementation
 

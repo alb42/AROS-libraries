@@ -263,7 +263,7 @@ AROS_LH0(int, sqlite3_libversion_number,
 {
     AROS_LIBFUNC_INIT
     USESYSBASE
-    bug("sqlite3_libversion_number %d\n");    
+    bug("sqlite3_libversion_number %d\n");
 
     return sqlite3_libversion_number();
 
@@ -567,7 +567,7 @@ AROS_LH3(int, sqlite3_limit,
 AROS_LH5(int, sqlite3_bind_blob,
     AROS_LHA(sqlite3_stmt *, pStmt, A0),
     AROS_LHA(int , idx, D0),
-    AROS_LHA(const void *, value, A1),    
+    AROS_LHA(const void *, value, A1),
     AROS_LHA(int, n, A2),
     AROS_LHA(void(*destructor),(void*), A3),
     LIBBASETYPEPTR, Base, 32, LIBHEADNAME)
@@ -584,7 +584,7 @@ AROS_LH5(int, sqlite3_bind_blob,
 AROS_LH3(int, sqlite3_bind_double,
     AROS_LHA(sqlite3_stmt *, pStmt, A0),
     AROS_LHA(int , idx, D0),
-    AROS_LHA(double , value, A1),    
+    AROS_LHA(double , value, A1),
     LIBBASETYPEPTR, Base, 33, LIBHEADNAME)
 {
     AROS_LIBFUNC_INIT
@@ -599,7 +599,7 @@ AROS_LH3(int, sqlite3_bind_double,
 AROS_LH3(int, sqlite3_bind_int,
     AROS_LHA(sqlite3_stmt *, pStmt, A0),
     AROS_LHA(int , idx, D0),
-    AROS_LHA(int , value, D1),    
+    AROS_LHA(int , value, D1),
     LIBBASETYPEPTR, Base, 34, LIBHEADNAME)
 {
     AROS_LIBFUNC_INIT
@@ -614,7 +614,7 @@ AROS_LH3(int, sqlite3_bind_int,
 AROS_LH3(int, sqlite3_bind_int64,
     AROS_LHA(sqlite3_stmt *, pStmt, A0),
     AROS_LHA(int , idx, D0),
-    AROS_LHA(sqlite3_int64 , value, D1),    
+    AROS_LHA(sqlite3_int64 , value, D1),
     LIBBASETYPEPTR, Base, 35, LIBHEADNAME)
 {
     AROS_LIBFUNC_INIT
@@ -643,7 +643,7 @@ AROS_LH2(int, sqlite3_bind_null,
 AROS_LH5(int, sqlite3_bind_text,
     AROS_LHA(sqlite3_stmt *, pStmt, A0),
     AROS_LHA(int , idx, D0),
-    AROS_LHA(const char *, value, A1),    
+    AROS_LHA(const char *, value, A1),
     AROS_LHA(int, n, A2),
     AROS_LHA(void(*destructor),(void*), A3),
     LIBBASETYPEPTR, Base, 37, LIBHEADNAME)
@@ -660,7 +660,7 @@ AROS_LH5(int, sqlite3_bind_text,
 AROS_LH5(int, sqlite3_bind_text16,
     AROS_LHA(sqlite3_stmt *, pStmt, A0),
     AROS_LHA(int , idx, D0),
-    AROS_LHA(const void *, value, A1),    
+    AROS_LHA(const void *, value, A1),
     AROS_LHA(int, n, A2),
     AROS_LHA(void(*destructor),(void*), A3),
     LIBBASETYPEPTR, Base, 38, LIBHEADNAME)
@@ -677,7 +677,7 @@ AROS_LH5(int, sqlite3_bind_text16,
 AROS_LH3(int, sqlite3_bind_value,
     AROS_LHA(sqlite3_stmt *, pStmt, A0),
     AROS_LHA(int , idx, D0),
-    AROS_LHA(sqlite3_value *, value, A1),    
+    AROS_LHA(sqlite3_value *, value, A1),
     LIBBASETYPEPTR, Base, 39, LIBHEADNAME)
 {
     AROS_LIBFUNC_INIT
@@ -692,7 +692,7 @@ AROS_LH3(int, sqlite3_bind_value,
 AROS_LH3(int, sqlite3_bind_zeroblob,
     AROS_LHA(sqlite3_stmt *, pStmt, A0),
     AROS_LHA(int , idx, D0),
-    AROS_LHA(int , n, D1),    
+    AROS_LHA(int , n, D1),
     LIBBASETYPEPTR, Base, 40, LIBHEADNAME)
 {
     AROS_LIBFUNC_INIT
@@ -705,7 +705,7 @@ AROS_LH3(int, sqlite3_bind_zeroblob,
 }
 
 AROS_LH1(int, sqlite3_bind_parameter_count,
-    AROS_LHA(sqlite3_stmt *, pStmt, A0),   
+    AROS_LHA(sqlite3_stmt *, pStmt, A0),
     LIBBASETYPEPTR, Base, 41, LIBHEADNAME)
 {
     AROS_LIBFUNC_INIT
@@ -1664,6 +1664,67 @@ AROS_LH2(sqlite3_stmt *, sqlite3_next_stmt,
     AROS_LIBFUNC_EXIT
 }
 
+AROS_LH8(int, sqlite3_create_function,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    AROS_LHA(const char *, zFunctionName, A1),
+    AROS_LHA(int , nArg, D0),
+    AROS_LHA(int , eTextRep, D1),
+    AROS_LHA(void *, pApp, A2),
+    AROS_LHA(void (*xFunc),(sqlite3_context*,int,sqlite3_value**), A3),
+    AROS_LHA(void (*xStep),(sqlite3_context*,int,sqlite3_value**), A4),
+    AROS_LHA(void (*xFinal),(sqlite3_context*), A5),
+    LIBBASETYPEPTR, Base, 110, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_create_function \n");
+
+    return sqlite3_create_function(pDb, zFunctionName, nArg, eTextRep, pApp, xFunc, xStep, xFinal);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH8(int, sqlite3_create_function16,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    AROS_LHA(const void *, zFunctionName, A1),
+    AROS_LHA(int , nArg, D0),
+    AROS_LHA(int , eTextRep, D1),
+    AROS_LHA(void *, pApp, A2),
+    AROS_LHA(void (*xFunc),(sqlite3_context*,int,sqlite3_value**), A3),
+    AROS_LHA(void (*xStep),(sqlite3_context*,int,sqlite3_value**), A4),
+    AROS_LHA(void (*xFinal),(sqlite3_context*), A5),
+    LIBBASETYPEPTR, Base, 111, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_create_function16 \n");
+
+    return sqlite3_create_function16(pDb, zFunctionName, nArg, eTextRep, pApp, xFunc, xStep, xFinal);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH9(int, sqlite3_create_function_v2,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    AROS_LHA(const char *, zFunctionName, A1),
+    AROS_LHA(int , nArg, D0),
+    AROS_LHA(int , eTextRep, D1),
+    AROS_LHA(void *, pApp, A2),
+    AROS_LHA(void (*xFunc),(sqlite3_context*,int,sqlite3_value**), A3),
+    AROS_LHA(void (*xStep),(sqlite3_context*,int,sqlite3_value**), A4),
+    AROS_LHA(void (*xFinal),(sqlite3_context*), A5),
+    AROS_LHA(void(*xDestroy),(void*), D2),
+    LIBBASETYPEPTR, Base, 112, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_create_function \n");
+
+    return sqlite3_create_function_v2(pDb, zFunctionName, nArg, eTextRep, pApp, xFunc, xStep, xFinal, xDestroy);
+
+    AROS_LIBFUNC_EXIT
+}
+
 
 const APTR FuncTable[] =
 {
@@ -1776,6 +1837,9 @@ const APTR FuncTable[] =
     &AROS_SLIB_ENTRY(sqlite3_get_autocommit,LIBHEADNAME,107),
     &AROS_SLIB_ENTRY(sqlite3_db_handle,LIBHEADNAME,108),
     &AROS_SLIB_ENTRY(sqlite3_next_stmt,LIBHEADNAME,109),
+    &AROS_SLIB_ENTRY(sqlite3_create_function,LIBHEADNAME,110),
+    &AROS_SLIB_ENTRY(sqlite3_create_function16,LIBHEADNAME,111),
+    &AROS_SLIB_ENTRY(sqlite3_create_function_v2,LIBHEADNAME,112),
     (void *)-1
 };
 
