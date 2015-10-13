@@ -197,6 +197,15 @@ type
   PSQLite3_Context = ^SQLite3_Context;
   PPSQLite3_Context = ^PSQLite3_Context;
 
+  SQLite3_Module = record end;
+  PSQLite3_Module = ^SQLite3_Module;
+  PPSQLite3_Module = ^PSQLite3_Module;
+
+  SQLite3_Blob = record end;
+  PSQLite3_Blob = ^SQLite3_Blob;
+  PPSQLite3_Blob = ^PSQLite3_Blob;
+
+
  TSQLite3Base = record
     SQLite3_Lib: TLibrary;
     SQLite3_SysBase: PExecBase;
@@ -215,7 +224,9 @@ type
   TSQLite3_CompareCallback = function(User: Pointer; A: Integer; B: Pointer; C: Integer; D: Pointer): Integer; cdecl;
   TSQLite3_Collation_Needed_CallBack = function(User: Pointer; Db: PSQLite3; eTextRep: Integer; s: PAnsiChar): Pointer; cdecl;
   TSQLite3_Collation_Needed_CallBack16 = function(User: Pointer; Db: PSQLite3; eTextRep: Integer; s: PWideChar): Pointer; cdecl;
-
+  TSQLite3_CommitCallback = function(User: Pointer): Integer; cdecl;
+  TSQLite3_RollbackCallback = procedure(User: Pointer); cdecl;
+  TSQLite3_UpdateCallback = procedure(User: Pointer; Event: Integer; Database, Table: PAnsiChar; RowID: SQLite3_Int64); cdecl;
 const
   SQLITE_STATIC    = 0;
   SQLITE_TRANSIENT = -1;
@@ -336,7 +347,18 @@ function SQLite3_Create_Collation_v2(db: PSQLite3; zName: PAnsiChar; eTextRep: I
 function SQLite3_Create_Collation16(db: PSQLite3; zName: PWideChar; eTextRep: Integer; pArg: Pointer; xCompare: TSQLite3_CompareCallback): Integer; syscall SQLite3Base 115;
 function SQLite3_Collation_Needed(db: PSQLite3; User: Pointer; Callback: TSQLite3_Collation_Needed_CallBack): Integer; syscall SQLite3Base 116;
 function SQLite3_Collation_Needed16(db: PSQLite3; User: Pointer; Callback: TSQLite3_Collation_Needed_CallBack16): Integer; syscall SQLite3Base 117;
-
+function SQLite3_Commit_Hook(db: PSQLite3; Callback: TSQLite3_CommitCallBack; User: Pointer): Pointer; syscall SQLite3Base 118;
+function SQLite3_Rollback_Hook(db: PSQLite3; Callback: TSQLite3_RollbackCallBack; User: Pointer): Pointer; syscall SQLite3Base 119;
+function SQLite3_Update_Hook(db: PSQLite3; Callback: TSQLite3_UpdateCallback; User: Pointer): Pointer; syscall SQLite3Base 120;
+function SQLite3_Create_Module(db: PSQLite3; zName: PAnsiChar; P: PSQLite3_Module; pClientData: Pointer): Integer; syscall SQLite3Base 121;
+function SQLite3_Create_Module_v2(db: PSQLite3; zName: PAnsiChar; P: PSQLite3_Module; pClientData: Pointer; xDestroy: TSQLite3_Destructor_Type): Integer; syscall SQLite3Base 122;
+function SQLite3_Declare_VTab(db: PSQLite3; zSQL: PAnsiChar): Integer; syscall SQLite3Base 123;
+function SQLite3_Overload_Function(db: PSQLite3; zFuncName: PAnsiChar; nArg: Integer): Integer; syscall SQLite3Base 124;
+function SQLite3_Blob_Open(db: PSQLite3; zDb: PAnsiChar; zTable: PAnsiChar; zColumn: PAnsiChar; iRow: SQLite3_Int64; Flags: Integer; var pBlob: PSQLite3_Blob): Integer; syscall SQLite3Base 125;
+function SQLite3_Blob_Close(pBlob: PSQLite3_Blob): Integer; syscall SQLite3Base 126;
+function SQLite3_Blob_Bytes(pBlob: PSQLite3_Blob): Integer; syscall SQLite3Base 127;
+function SQLite3_Blob_Read(pBlob: PSQLite3_Blob; Z: Pointer; N: Integer; iOffset: Integer): Integer; syscall SQLite3Base 128;
+function SQLite3_Blob_Write(pBlob: PSQLite3_Blob; Z: Pointer; N: Integer; iOffset: Integer): Integer; syscall SQLite3Base 129;
 
 implementation
 
