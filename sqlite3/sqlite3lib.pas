@@ -174,7 +174,27 @@ const
   SQLITE_FUNCTION           = 31; // NULL            Function Name
   SQLITE_SAVEPOINT          = 32; // Operation       Savepoint Name
   SQLITE_COPY               =  0; // No longer used
-
+  // SQLite3_status
+  SQLITE_STATUS_MEMORY_USED         = 0;
+  SQLITE_STATUS_PAGECACHE_USED      = 1;
+  SQLITE_STATUS_PAGECACHE_OVERFLOW  = 2;
+  SQLITE_STATUS_SCRATCH_USED        = 3;
+  SQLITE_STATUS_SCRATCH_OVERFLOW    = 4;
+  SQLITE_STATUS_MALLOC_SIZE         = 5;
+  SQLITE_STATUS_PARSER_STACK        = 6;
+  SQLITE_STATUS_PAGECACHE_SIZE      = 7;
+  SQLITE_STATUS_SCRATCH_SIZE        = 8;
+  SQLITE_STATUS_MALLOC_COUNT        = 9;
+  // SQLite3_Db_Status
+  SQLITE_DBSTATUS_LOOKASIDE_USED    = 0;
+  SQLITE_DBSTATUS_CACHE_USED        = 1;
+  SQLITE_DBSTATUS_SCHEMA_USED       = 2;
+  SQLITE_DBSTATUS_STMT_USED         = 3;
+  SQLITE_DBSTATUS_MAX               = 3;   // Largest defined DBSTATUS
+  // SQLite3_Stmt_Status
+  SQLITE_STMTSTATUS_FULLSCAN_STEP = 1;
+  SQLITE_STMTSTATUS_SORT          = 2;
+  SQLITE_STMTSTATUS_AUTOINDEX     = 3;
 type
   SQLite3_Int64 = Int64;
 
@@ -205,6 +225,9 @@ type
   PSQLite3_Blob = ^SQLite3_Blob;
   PPSQLite3_Blob = ^PSQLite3_Blob;
 
+  SQLite3_Backup = record end;
+  PSQLite3_Backup = ^SQLite3_Backup;
+  PPSQLite3_Backup = ^PSQLite3_Backup;
 
  TSQLite3Base = record
     SQLite3_Lib: TLibrary;
@@ -227,6 +250,7 @@ type
   TSQLite3_CommitCallback = function(User: Pointer): Integer; cdecl;
   TSQLite3_RollbackCallback = procedure(User: Pointer); cdecl;
   TSQLite3_UpdateCallback = procedure(User: Pointer; Event: Integer; Database, Table: PAnsiChar; RowID: SQLite3_Int64); cdecl;
+  TSQLite3_WalCallback = function(P: Pointer; Db :PSQLite3; c: PAnsiChar; D: Integer): Integer; cdecl;
 const
   SQLITE_STATIC    = 0;
   SQLITE_TRANSIENT = -1;
@@ -359,6 +383,15 @@ function SQLite3_Blob_Close(pBlob: PSQLite3_Blob): Integer; syscall SQLite3Base 
 function SQLite3_Blob_Bytes(pBlob: PSQLite3_Blob): Integer; syscall SQLite3Base 127;
 function SQLite3_Blob_Read(pBlob: PSQLite3_Blob; Z: Pointer; N: Integer; iOffset: Integer): Integer; syscall SQLite3Base 128;
 function SQLite3_Blob_Write(pBlob: PSQLite3_Blob; Z: Pointer; N: Integer; iOffset: Integer): Integer; syscall SQLite3Base 129;
+function SQLite3_Status(Op: Integer; var Current: Integer; var Highwater: Integer; ResetFlag: Integer): Integer; syscall SQLite3Base 130;
+function SQLite3_Db_Status(db: PSQLite3; Op: Integer; var Current: Integer; var Highwater: Integer; ResetFlag: Integer): Integer; syscall SQLite3Base 131;
+function SQLite3_Stmt_Status(Stmt: PSQLite3_Stmt; Op: Integer; ResetFlag: Integer): Integer; syscall SQLite3Base 132;
+function SQLite3_Backup_Init(pDest: PSQLite3; zDestName: PAnsiChar; pSource: PSQLite3; zSourceName: PAnsiChar): PSQLite3_Backup; syscall SQLite3Base 133;
+function SQLite3_Backup_Step(p: PSQLite3_Backup; nPage: Integer): Integer; syscall SQLite3Base 134;
+function SQLite3_Backup_Finish(p: PSQLite3_Backup): Integer; syscall SQLite3Base 135;
+function SQLite3_Backup_Remaining(p: PSQLite3_Backup): Integer; syscall SQLite3Base 136;
+function SQLite3_Backup_Pagecount(p: PSQLite3_Backup): Integer; syscall SQLite3Base 137;
+function SQLite3_Wal_Hook(db: PSQLite3; Callback: TSQLite3_WalCallback; User: Pointer): Pointer; syscall SQLite3Base 138;
 
 implementation
 

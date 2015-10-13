@@ -1991,6 +1991,182 @@ AROS_LH4(int, sqlite3_blob_write,
     AROS_LIBFUNC_EXIT
 }
 
+AROS_LH4(int , sqlite3_status,
+    AROS_LHA(int , op, D0),
+    AROS_LHA(int *, pCurrent, A0),
+    AROS_LHA(int *, pHighwater, A1),
+    AROS_LHA(int , resetFlag, D1),
+    LIBBASETYPEPTR, Base, 130, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_status \n");
+
+    return sqlite3_status(op, pCurrent, pHighwater, resetFlag);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH5(int , sqlite3_db_status,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    AROS_LHA(int , op, D0),
+    AROS_LHA(int *, pCurrent, A1),
+    AROS_LHA(int *, pHighwater, A2),
+    AROS_LHA(int , resetFlag, D1),
+    LIBBASETYPEPTR, Base, 131, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_db_status \n");
+
+    return sqlite3_db_status(pDb, op, pCurrent, pHighwater, resetFlag);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH3(int , sqlite3_stmt_status,
+    AROS_LHA(sqlite3_stmt *, pStmt, A0),
+    AROS_LHA(int , op, D0),
+    AROS_LHA(int , resetFlag, D1),
+    LIBBASETYPEPTR, Base, 132, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_stmt_status \n");
+
+    return sqlite3_stmt_status(pStmt, op, resetFlag);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH4(sqlite3_backup *, sqlite3_backup_init,
+    AROS_LHA(sqlite3 *, pDest, A0),
+    AROS_LHA(const char *, zDestName, A1),
+    AROS_LHA(sqlite3 *, pSource, A2),
+    AROS_LHA(const char *, zSourceName, A3),
+    LIBBASETYPEPTR, Base, 133, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_backup_init \n");
+
+    return sqlite3_backup_init(pDest, zDestName, pSource, zSourceName);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH2(int , sqlite3_backup_step,
+    AROS_LHA(sqlite3_backup *, p, A0),
+    AROS_LHA(int , nPage, D0),
+    LIBBASETYPEPTR, Base, 134, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_backup_step \n");
+
+    return sqlite3_backup_step(p, nPage);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(int , sqlite3_backup_finish,
+    AROS_LHA(sqlite3_backup *, p, A0),
+    LIBBASETYPEPTR, Base, 135, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_backup_finish \n");
+
+    return sqlite3_backup_finish(p);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(int , sqlite3_backup_remaining,
+    AROS_LHA(sqlite3_backup *, p, A0),
+    LIBBASETYPEPTR, Base, 136, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_backup_remaining \n");
+
+    return sqlite3_backup_remaining(p);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH1(int , sqlite3_backup_pagecount,
+    AROS_LHA(sqlite3_backup *, p, A0),
+    LIBBASETYPEPTR, Base, 137, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_backup_pagecount \n");
+
+    return sqlite3_backup_pagecount(p);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH3(int , sqlite3_strnicmp,
+    AROS_LHA(const char *, a, A0),
+    AROS_LHA(const char *, b, A1),
+    AROS_LHA(int, len, A2),
+    LIBBASETYPEPTR, Base, 138, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_strnicmp \n");
+
+    return sqlite3_strnicmp(a, b, len);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH3(void *, sqlite3_wal_hook,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    AROS_LHA(int(*cb),(void *,sqlite3*,const char*,int), A1),
+    AROS_LHA(void *, user, A2),
+    LIBBASETYPEPTR, Base, 139, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_wal_hook \n");
+
+    return sqlite3_wal_hook(pDb, cb, user);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH2(int , sqlite3_wal_autocheckpoint,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    AROS_LHA(int , N, D0),
+    LIBBASETYPEPTR, Base, 140, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_wal_autocheckpoint \n");
+
+    return sqlite3_wal_autocheckpoint(pDb, N);
+
+    AROS_LIBFUNC_EXIT
+}
+
+AROS_LH2(int , sqlite3_wal_checkpoint,
+    AROS_LHA(sqlite3 *, pDb, A0),
+    AROS_LHA(const char *, zDb, A1),
+    LIBBASETYPEPTR, Base, 141, LIBHEADNAME)
+{
+    AROS_LIBFUNC_INIT
+    USESYSBASE
+    bug("sqlite3_wal_checkpoint \n");
+
+    return sqlite3_wal_checkpoint(pDb, zDb);
+
+    AROS_LIBFUNC_EXIT
+}
+
+
 
 const APTR FuncTable[] =
 {
@@ -2123,6 +2299,18 @@ const APTR FuncTable[] =
     &AROS_SLIB_ENTRY(sqlite3_blob_bytes,LIBHEADNAME,127),
     &AROS_SLIB_ENTRY(sqlite3_blob_read,LIBHEADNAME,128),
     &AROS_SLIB_ENTRY(sqlite3_blob_write,LIBHEADNAME,129),
+    &AROS_SLIB_ENTRY(sqlite3_status,LIBHEADNAME,130),
+    &AROS_SLIB_ENTRY(sqlite3_db_status,LIBHEADNAME,131),
+    &AROS_SLIB_ENTRY(sqlite3_stmt_status,LIBHEADNAME,132),
+    &AROS_SLIB_ENTRY(sqlite3_backup_init,LIBHEADNAME,133),
+    &AROS_SLIB_ENTRY(sqlite3_backup_step,LIBHEADNAME,134),
+    &AROS_SLIB_ENTRY(sqlite3_backup_finish,LIBHEADNAME,135),
+    &AROS_SLIB_ENTRY(sqlite3_backup_remaining,LIBHEADNAME,136),
+    &AROS_SLIB_ENTRY(sqlite3_backup_pagecount,LIBHEADNAME,137),
+    &AROS_SLIB_ENTRY(sqlite3_strnicmp,LIBHEADNAME,138),
+    &AROS_SLIB_ENTRY(sqlite3_wal_hook,LIBHEADNAME,139),
+    &AROS_SLIB_ENTRY(sqlite3_wal_autocheckpoint,LIBHEADNAME,140),
+    &AROS_SLIB_ENTRY(sqlite3_wal_checkpoint,LIBHEADNAME,141),
     (void *)-1
 };
 
