@@ -19,8 +19,7 @@ struct imagequantbase
 {
     struct Library   imagequant_Lib;
     struct ExecBase *imagequant_SysBase;
-    APTR            imagequant_SegList;
-    int              testint;
+    APTR             imagequant_SegList;
 };
 
 
